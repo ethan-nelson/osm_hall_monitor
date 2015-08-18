@@ -1,0 +1,14 @@
+*~
+*.*~
+*.py[cod]
+*.egg
+*.egg-info
+bin
+build
+develop-eggs
+dist
+eggs
+env
+src
+sdist
+var
