@@ -1,17 +1,17 @@
-import urllib2
+import requests
 import gzip
 import StringIO
 import xml.etree.cElementTree as ElementTree
 
 
-def OSMUtil(sequence):
-    def parseOSM(source, handler):
+def osmUtil(sequence):
+    def parseOSM(source, handle):
         for event, elem in ElementTree.iterparse(source,
                                                  events=('start', 'end')):
             if event == 'start':
-                handler.startElement(elem.tag, elem.attrib)
+                handle.startElement(elem.tag, elem.attrib)
             elif event == 'end':
-                handler.endElement(elem.tag)
+                handle.endElement(elem.tag)
             elem.clear()
 
     class OSCDecoder():
@@ -68,12 +68,12 @@ def OSMUtil(sequence):
             if name in ('node', 'way', 'relation'):
                 self.primitive = {}
 
-    sqnStr = str(sequence['sequencenumber']).zfill(9)
-    url = "http://planet.openstreetmap.org/replication/hour/%s/%s/%s.osc.gz" % (sqnStr[0:3], sqnStr[3:6], sqnStr[6:9])
+    sqn = str(sequence['number']).zfill(9)
+    url = "https://planet.openstreetmap.org/replication/hour/%s/%s/%s.osc.gz" % (sqn[0:3], sqn[3:6], sqn[6:9])
 
     print "Downloading change file (%s)." % (url)
-    content = urllib2.urlopen(url)
-    content = StringIO.StringIO(content.read())
+    content = requests.get(url)
+    content = StringIO.StringIO(content.content)
     gzipFile = gzip.GzipFile(fileobj=content)
 
     print "Parsing change file."

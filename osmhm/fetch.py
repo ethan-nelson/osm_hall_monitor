@@ -9,7 +9,7 @@ def fetchLast():
 
         sequence = {}
         cur.execute("SELECT * FROM filetime;")
-        foo, sequence['sequencenumber'], sequence['timestamp'], \
+        foo, sequence['number'], sequence['timestamp'], \
             readflag = cur.fetchone()
 
         return sequence, readflag
@@ -18,7 +18,7 @@ def fetchLast():
 
 
 def fetchNext(currentSequence):
-    nextSequence = int(currentSequence['sequencenumber']) + 1
+    nextSequence = int(currentSequence['number']) + 1
     sqnStr = str(nextSequence).zfill(9)
     url = "http://planet.openstreetmap.org/replication/hour/%s/%s/%s.state.txt" %\
         (sqnStr[0:3], sqnStr[3:6], sqnStr[6:9])
@@ -35,7 +35,7 @@ def fetchNext(currentSequence):
             state[k.lower()] = v.strip().replace("\\:", ":")
 
         cur.execute("UPDATE filetime SET sequencenumber = '%s', timestamp = '%s', readflag = '%s';" %
-                    (state['sequencenumber'], state['timestamp'], False))
+                    (state['number'], state['timestamp'], False))
         conn.commit()
 
     except:
