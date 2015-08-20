@@ -68,7 +68,7 @@ def osmUtil(sequence):
             if name in ('node', 'way', 'relation'):
                 self.primitive = {}
 
-    sqn = str(sequence['sequenceNumber']).zfill(9)
+    sqn = str(sequence['sequencenumber']).zfill(9)
     url = "https://planet.openstreetmap.org/replication/hour/%s/%s/%s.osc.gz" % (sqn[0:3], sqn[3:6], sqn[6:9])
 
     print "Downloading change file (%s)." % (url)
