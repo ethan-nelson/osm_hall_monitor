@@ -1,5 +1,5 @@
 from connect import connect
-import urllib2
+import requests
 
 
 def fetchLast():
@@ -9,7 +9,7 @@ def fetchLast():
 
         sequence = {}
         cur.execute("SELECT * FROM filetime;")
-        foo, sequence['number'], sequence['timestamp'], \
+        foo, sequence['sequenceNumber'], sequence['timestamp'], \
             readflag = cur.fetchone()
 
         return sequence, readflag
@@ -18,27 +18,29 @@ def fetchLast():
 
 
 def fetchNext(currentSequence):
-    nextSequence = int(currentSequence['number']) + 1
+    nextSequence = int(currentSequence['sequenceNumber']) + 1
     sqnStr = str(nextSequence).zfill(9)
-    url = "http://planet.openstreetmap.org/replication/hour/%s/%s/%s.state.txt" %\
+    stateUrl = "http://planet.openstreetmap.org/replication/hour/%s/%s/%s.state.txt" %\
         (sqnStr[0:3], sqnStr[3:6], sqnStr[6:9])
+
     try:
-        u = urllib2.urlopen(url)
+        u = requests.get(stateUrl)
 
-        conn = connect()
-        cur = conn.cursor()
-
-        vals = u.read().split('\n')
+        vals = u.text.encode('utf-8').split('\n')
         state = {}
         for val in vals[1:3]:
             (k, v) = val.split('=')
             state[k.lower()] = v.strip().replace("\\:", ":")
-
-        cur.execute("UPDATE filetime SET sequencenumber = '%s', timestamp = '%s', readflag = '%s';" %
-                    (state['number'], state['timestamp'], False))
-        conn.commit()
-
     except:
+        return False
+
+    conn = connect()
+    if conn:
+        cur = conn.cursor()
+        cur.execute("UPDATE filetime SET sequencenumber = '%s', timestamp = '%s', readflag = '%s';" %
+                    (state['sequenceNumber'], state['timestamp'], False))
+        conn.commit()
+    else:
         return False
 
     return True
