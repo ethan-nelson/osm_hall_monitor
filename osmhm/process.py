@@ -12,7 +12,6 @@ def process(objects):
 
         collation[firstAxis] = first
 
-
     def addInfo(collation, firstAxis, thing):
         if firstAxis not in collation:
             collation[firstAxis] = {}
@@ -24,10 +23,10 @@ def process(objects):
 
         collation[firstAxis] = first
 
-
     changeset_collation = {}
 
-    print "Processing a total of %d objects." % (len(objects.nodes)+len(objects.ways)+len(objects.relations))
+    print "Processing a total of %d objects." %\
+          (len(objects.nodes)+len(objects.ways)+len(objects.relations))
 
     for node in objects.nodes.values():
         collateData(changeset_collation, node['changeset'], node['action'])
