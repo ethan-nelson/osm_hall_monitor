@@ -3,7 +3,7 @@ from filters import (
     userFilter,
     objectFilter,
     )
-from osmUtil import osmUtil
+from diffUtil import diffUtil
 
 def process(sequence):
     def collateData(collation, firstAxis, secondAxis):
@@ -33,7 +33,7 @@ def process(sequence):
 
 
     changeset_collation = {}
-    objects = osmUtil(sequence)
+    objects = diffUtil(sequence['sequencenumber'])
 
     print "Processing a total of %d objects." % (len(objects.nodes)+len(objects.ways)+len(objects.relations))
 

@@ -4,8 +4,8 @@ import StringIO
 import xml.etree.cElementTree as ElementTree
 
 
-def osmUtil(sequence):
-    def parseOSM(source, handle):
+def diffUtil(sequencenumber):
+    def parseDiff(source, handle):
         for event, elem in ElementTree.iterparse(source,
                                                  events=('start', 'end')):
             if event == 'start':
@@ -31,7 +31,8 @@ def osmUtil(sequence):
                 self.primitive['id'] = int(attributes['id'])
                 self.primitive['version'] = int(attributes['version'])
                 self.primitive['changeset'] = int(attributes['changeset'])
-                self.primitive['username'] = attributes.get('user')
+                self.primitive['username'] = attributes['user']
+                self.primitive['uid'] = attributes['uid']
                 self.primitive['timestamp'] = attributes['timestamp']
                 self.primitive['tags'] = {}
                 self.primitive['action'] = self.action
@@ -67,17 +68,17 @@ def osmUtil(sequence):
                 self.relations[self.primitive['id']] = self.primitive
             if name in ('node', 'way', 'relation'):
                 self.primitive = {}
+    try:
+        sqn = str(sequencenumber).zfill(9)
+        url = "https://planet.openstreetmap.org/replication/hour/%s/%s/%s.osc.gz" % (sqn[0:3], sqn[3:6], sqn[6:9])
 
-    sqn = str(sequence['sequencenumber']).zfill(9)
-    url = "https://planet.openstreetmap.org/replication/hour/%s/%s/%s.osc.gz" % (sqn[0:3], sqn[3:6], sqn[6:9])
+        content = requests.get(url)
+        content = StringIO.StringIO(content.content)
+        gzipFile = gzip.GzipFile(fileobj=content)
 
-    print "Downloading change file (%s)." % (url)
-    content = requests.get(url)
-    content = StringIO.StringIO(content.content)
-    gzipFile = gzip.GzipFile(fileobj=content)
+        dataObject = OSCDecoder()
+        parseDiff(gzipFile, dataObject)
 
-    print "Parsing change file."
-    dataObject = OSCDecoder()
-    parseOSM(gzipFile, dataObject)
-
-    return dataObject
+        return dataObject
+    except:
+        return None
