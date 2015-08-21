@@ -1,11 +1,4 @@
-from filters import (
-    suspiciousFilter,
-    userFilter,
-    objectFilter,
-    )
-from diffUtil import diffUtil
-
-def process(sequence):
+def process(objects):
     def collateData(collation, firstAxis, secondAxis):
         if firstAxis not in collation:
             collation[firstAxis] = {}
@@ -33,7 +26,6 @@ def process(sequence):
 
 
     changeset_collation = {}
-    objects = diffUtil(sequence['sequencenumber'])
 
     print "Processing a total of %d objects." % (len(objects.nodes)+len(objects.ways)+len(objects.relations))
 
@@ -47,8 +39,4 @@ def process(sequence):
         collateData(changeset_collation, relation['changeset'], relation['action'])
         addInfo(changeset_collation, relation['changeset'], relation)
 
-    suspiciousFilter(changeset_collation)
-
-    userFilter(changeset_collation)
-
-    objectFilter(objects)
+    return changeset_collation
