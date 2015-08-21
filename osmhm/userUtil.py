@@ -9,8 +9,6 @@ def userUtil(user_id):
                                                  events=('start', 'end')):
             if event == 'start':
                 handle.startElement(elem.tag, elem.attrib)
-            elif event == 'end':
-                handle.endElement(elem.tag)
             elem.clear()
 
     class userDecoder():
@@ -29,23 +27,13 @@ def userUtil(user_id):
                 self.blocks = int(attributes['count'])
                 self.active = int(attributes['active'])
 
-        def endElement(self, name):
-            if name == 'node':
-                self.nodes[self.primitive['id']] = self.primitive
-            elif name == 'way':
-                self.ways[self.primitive['id']] = self.primitive
-            elif name == 'relation':
-                self.relations[self.primitive['id']] = self.primitive
-            if name in ('node', 'way', 'relation'):
-                self.primitive = {}
-
     try:
         url = 'http://www.osm.org/api/0.6/user/' + str(user_id)
 
         content = requests.get(url)
         content = StringIO.StringIO(content.content)
 
-        if a.len == 0:
+        if content.len == 0:
             raise Exception #Yeah, I raised a general exception and I don't really care.
 
         dataObject = userDecoder()
