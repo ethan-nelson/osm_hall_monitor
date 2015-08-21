@@ -70,7 +70,8 @@ def diffUtil(sequencenumber):
                 self.primitive = {}
     try:
         sqn = str(sequencenumber).zfill(9)
-        url = "https://planet.openstreetmap.org/replication/hour/%s/%s/%s.osc.gz" % (sqn[0:3], sqn[3:6], sqn[6:9])
+        url = "http://planet.osm.org/replication/hour/%s/%s/%s.osc.gz" %\
+              (sqn[0:3], sqn[3:6], sqn[6:9])
 
         content = requests.get(url)
         content = StringIO.StringIO(content.content)
