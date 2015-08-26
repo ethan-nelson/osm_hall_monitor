@@ -9,9 +9,6 @@ Sample calls available for now:
 
 ```
 import osmhm
-import os
-
-os.environ['DATABASE_URL'] = "postgres://hmdb:hmpw@localhost/hm"
 
 differenceObject = osmhm.diffUtil('25866')  # Retrieves the 000/025/866 diff
 changesets = osmhm.process(differenceObject) # Parses the data into changesets
