@@ -19,6 +19,7 @@ def process(objects):
         first = collation[firstAxis]
 
         first["username"] = thing["username"]
+        first["uid"] = thing["uid"]
         first["timestamp"] = thing["timestamp"]
 
         collation[firstAxis] = first
