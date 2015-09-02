@@ -3,6 +3,7 @@
 *.py[cod]
 *.egg
 *.egg-info
+*.swp
 bin
 build
 develop-eggs
