@@ -12,7 +12,7 @@ def _collate_data(collation, firstAxis, secondAxis):
     collation[firstAxis] = first
 
 
-def extract_changeset(objects):
+def extract_changesets(objects):
     def addChangesetInfo(collation, axis, thing):
         if axis not in collation:
             collation[axis] = {}
