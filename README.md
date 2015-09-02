@@ -10,8 +10,9 @@ Sample calls available for now:
 ```
 import osmhm
 
-differenceObject = osmhm.diffUtil('25866')  # Retrieves the 000/025/866 diff
-changesets = osmhm.process(differenceObject) # Parses the data into changesets
+data = osmhm.fetchThis('25866')  # Retrieves the 000/025/866 diff
+differenceObject = osmhm.diffUtil(data)  # Parse the data stream
+changesets = osmhm.process(differenceObject) # Process the data into changesets
 
 userInfo = {}
 for changeset in changesets.iteritems():
