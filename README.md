@@ -12,7 +12,7 @@ import osmhm
 
 data = osmhm.fetchThis('25866')  # Retrieves the 000/025/866 diff
 differenceObject = osmhm.diffUtil(data)  # Parse the data stream
-changesets = osmhm.process(differenceObject) # Process the data into changesets
+changesets, users, objects = osmhm.process(differenceObject) # Process the data
 
 userInfo = {}
 for changeset in changesets.iteritems():
