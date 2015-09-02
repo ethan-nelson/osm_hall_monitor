@@ -1,10 +1,8 @@
 import requests
-import gzip
-import StringIO
 import xml.etree.cElementTree as ElementTree
 
 
-def diffUtil(sequencenumber):
+def diffUtil(dataStream):
     def parseDiff(source, handle):
         for event, elem in ElementTree.iterparse(source,
                                                  events=('start', 'end')):
@@ -68,18 +66,8 @@ def diffUtil(sequencenumber):
                 self.relations[self.primitive['id']] = self.primitive
             if name in ('node', 'way', 'relation'):
                 self.primitive = {}
-    try:
-        sqn = str(sequencenumber).zfill(9)
-        url = "http://planet.osm.org/replication/hour/%s/%s/%s.osc.gz" %\
-              (sqn[0:3], sqn[3:6], sqn[6:9])
 
-        content = requests.get(url)
-        content = StringIO.StringIO(content.content)
-        gzipFile = gzip.GzipFile(fileobj=content)
+    dataObject = OSCDecoder()
+    parseDiff(dataStream, dataObject)
 
-        dataObject = OSCDecoder()
-        parseDiff(gzipFile, dataObject)
-
-        return dataObject
-    except:
-        return None
+    return dataObject
