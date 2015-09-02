@@ -17,11 +17,29 @@ def fetchLast():
         return None, None
 
 
-def fetchNext(currentSequence):
-    nextSequence = int(currentSequence['sequencenumber']) + 1
+def fetchThis(currentSequence, time='hour'):
+    import StringIO
+    import gzip
+
+    try:
+        sqn = str(currentSequence).zfill(9)
+        url = "http://planet.osm.org/replication/%s/%s/%s/%s.osc.gz" %\
+              (time, sqn[0:3], sqn[3:6], sqn[6:9])
+
+        content = requests.get(url)
+        content = StringIO.StringIO(content.content)
+        dataStream = gzip.GzipFile(fileobj=content)
+
+        return dataStream
+    except:
+        return None
+
+
+def fetchNext(currentSequence, time='hour'):
+    nextSequence = int(currentSequence) + 1
     sqnStr = str(nextSequence).zfill(9)
-    stateUrl = "http://planet.openstreetmap.org/replication/hour/%s/%s/%s.state.txt" %\
-        (sqnStr[0:3], sqnStr[3:6], sqnStr[6:9])
+    stateUrl = "http://planet.openstreetmap.org/replication/%s/%s/%s/%s.state.txt" %\
+        (time, sqnStr[0:3], sqnStr[3:6], sqnStr[6:9])
 
     try:
         u = requests.get(stateUrl)
