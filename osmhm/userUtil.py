@@ -6,7 +6,7 @@ import xml.etree.cElementTree as ElementTree
 def userUtil(user_id):
     def parseUser(source, handle):
         for event, elem in ElementTree.iterparse(source,
-                                                 events=('start')):
+                                                 events=('start','end')):
             if event == 'start':
                 handle.startElement(elem.tag, elem.attrib)
             elem.clear()
@@ -15,8 +15,8 @@ def userUtil(user_id):
         def __init__(self):
             self.creation = ""
             self.changesets = 0
-            self.blocks = 0
-            self.active = 0
+            self.total_blocks = 0
+            self.active_blocks = 0
 
         def startElement(self, name, attributes):
             if name == 'user':
