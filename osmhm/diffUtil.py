@@ -1,4 +1,3 @@
-import requests
 import xml.etree.cElementTree as ElementTree
 
 
