@@ -2,7 +2,7 @@ from connect import connect
 import requests
 
 
-def fetchLast():
+def fetch_last():
     conn = connect()
     if conn:
         cur = conn.cursor()
@@ -17,32 +17,14 @@ def fetchLast():
         return None, None
 
 
-def fetchThis(currentSequence, time='hour'):
-    import StringIO
-    import gzip
-
-    try:
-        sqn = str(currentSequence).zfill(9)
-        url = "http://planet.osm.org/replication/%s/%s/%s/%s.osc.gz" %\
-              (time, sqn[0:3], sqn[3:6], sqn[6:9])
-
-        content = requests.get(url)
-        content = StringIO.StringIO(content.content)
-        dataStream = gzip.GzipFile(fileobj=content)
-
-        return dataStream
-    except:
-        return None
-
-
-def fetchNext(currentSequence, time='hour'):
-    nextSequence = int(currentSequence) + 1
-    sqnStr = str(nextSequence).zfill(9)
-    stateUrl = "http://planet.openstreetmap.org/replication/%s/%s/%s/%s.state.txt" %\
+def fetch_next(current_sequence, time='hour'):
+    next_sequence = int(current_sequence) + 1
+    sqnStr = str(next_sequence).zfill(9)
+    state_url = "http://planet.openstreetmap.org/replication/%s/%s/%s/%s.state.txt" %\
         (time, sqnStr[0:3], sqnStr[3:6], sqnStr[6:9])
 
     try:
-        u = requests.get(stateUrl)
+        u = requests.get(state_url)
 
         vals = u.text.encode('utf-8').split('\n')
         state = {}
