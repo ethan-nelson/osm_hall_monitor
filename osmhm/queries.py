@@ -15,7 +15,7 @@ def query_user_list():
     conn = connect.connect()
     cur = conn.cursor()
 
-    cur.execute("SELECT username FROM users")
+    cur.execute("SELECT username FROM watched_users")
     watched_users = cur.fetchall()
     watched_users = [name[0] for name in watched_users]
 
@@ -25,7 +25,7 @@ def query_object_list():
     conn = connect.connect()
     cur = conn.cursor()
 
-    cur.execute("SELECT number FROM objects")
+    cur.execute("SELECT number FROM watched_objects")
     watched_objects = cur.fetchall()
     watched_objects = [name[0] for name in watched_objects]
 
