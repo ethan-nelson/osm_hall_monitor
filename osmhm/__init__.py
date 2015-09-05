@@ -1,1 +1,1 @@
-from fetch import fetch_last, fetch_next
+from fetch import fetch_last_read, fetch_next

@@ -2,45 +2,56 @@ from connect import connect
 import requests
 
 
-def fetch_last():
+def fetch_last_read():
+    """
+    """
     conn = connect()
-    if conn:
-        cur = conn.cursor()
+    cur = conn.cursor()
 
-        sequence = {}
-        cur.execute("SELECT * FROM filetime;")
-        foo, sequence['sequencenumber'], sequence['timestamp'], \
-            readflag = cur.fetchone()
+    sequence = {}
+    cur.execute("SELECT * FROM file_list;")
+    foo, sequence['sequencenumber'], sequence['timestamp'], sequence['timetype'],\
+        readflag = cur.fetchone()
 
-        return sequence, readflag
+    return sequence, readflag
+
+
+def fetch_next(current_sequence='', time='hour', reset=False):
+    """
+    """
+    if reset == True:
+        state_url = "http://planet.openstreetmap.org/replication/%s/state.txt" %\
+            (time)
+
     else:
-        return None, None
+        next_sequence = int(current_sequence) + 1
+        sqnStr = str(next_sequence).zfill(9)
+        state_url = "http://planet.openstreetmap.org/replication/%s/%s/%s/%s.state.txt" %\
+            (time, sqnStr[0:3], sqnStr[3:6], sqnStr[6:9])
 
+    if time == 'minute':
+        end = 5
+    else:
+        end = 3
 
-def fetch_next(current_sequence, time='hour'):
-    next_sequence = int(current_sequence) + 1
-    sqnStr = str(next_sequence).zfill(9)
-    state_url = "http://planet.openstreetmap.org/replication/%s/%s/%s/%s.state.txt" %\
-        (time, sqnStr[0:3], sqnStr[3:6], sqnStr[6:9])
+    u = requests.get(state_url)
 
-    try:
-        u = requests.get(state_url)
+    vals = u.text.encode('utf-8').split('\n')
+    state = {}
+    for val in vals[1:end]:
+        (k, v) = val.split('=')
+        state[k.lower()] = v.strip().replace("\\:", ":")
 
-        vals = u.text.encode('utf-8').split('\n')
-        state = {}
-        for val in vals[1:3]:
-            (k, v) = val.split('=')
-            state[k.lower()] = v.strip().replace("\\:", ":")
-
-        conn = connect()
-        if conn:
-            cur = conn.cursor()
-            cur.execute("UPDATE filetime SET sequencenumber = '%s', timestamp = '%s', readflag = '%s';" %
-                        (state['sequencenumber'], state['timestamp'], False))
-            conn.commit()
-        else:
-            return False
-    except:
-        return False
-
-    return True
+    info = (state['sequencenumber'], state['timestamp'], time, False)
+    conn = connect()
+    cur = conn.cursor()
+    if reset == True:
+        cur.execute("DELETE FROM file_list;")
+        cur.execute("""INSERT INTO file_list
+                       (sequence, timestamp, timetype, read)
+                       VALUES (%s, %s, %s, %s);""", info)
+    else:
+        cur.execute("""UPDATE file_list SET
+                       (sequence, timestamp, timetype, read)
+                       VALUES (%s, %s, %s, %s);""", info)
+    conn.commit()
