@@ -5,7 +5,7 @@ def query_white_list():
     conn = connect.connect()
     cur = conn.cursor()
 
-    cur.execute("SELECT username FROM whitelist")
+    cur.execute("SELECT username FROM whitelisted_users")
     white_list = cur.fetchall()
     whitelist = [name[0] for name in white_list]
 
