@@ -43,7 +43,7 @@ def userFilter(changesets):
 
     watchedUsers = query_user_list()
 
-    conn = osmhm.connect.connect()
+    conn = connect.connect()
     cur = conn.cursor()
 
     if watchedUsers:
@@ -57,7 +57,7 @@ def userFilter(changesets):
                     cur.execute("""INSERT INTO user_history
                                 (timestamp,changeset,username,added,changed,deleted)
                                 VALUES (%s, %s, %s, %s, %s, %s);""", info)
-                    notifyList.append(user + [info])
+                    notifyList.append([info].append(user))
 
         conn.commit()
     if notifyList:
@@ -69,7 +69,7 @@ def objectFilter(objects):
 
     watchedObjects = query_object_list()
 
-    conn = osmhm.connect.connect()
+    conn = connect.connect()
     cur = conn.cursor()
 
     if watchedObjects:
