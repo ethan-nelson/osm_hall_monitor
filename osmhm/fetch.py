@@ -10,10 +10,13 @@ def fetch_last_read():
 
     sequence = {}
     cur.execute("SELECT * FROM file_list;")
-    foo, sequence['sequencenumber'], sequence['timestamp'], sequence['timetype'],\
-        readflag = cur.fetchone()
+    try:
+        foo, sequence['sequencenumber'], sequence['timestamp'], sequence['timetype'],\
+            sequence['read_flag'] = cur.fetchone()
 
-    return sequence, readflag
+        return sequence
+    except:
+        return None
 
 
 def fetch_next(current_sequence='', time='hour', reset=False):
