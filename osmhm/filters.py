@@ -84,8 +84,8 @@ def userFilter(changesets):
                             changeset['username'].encode('utf8'),
                             changeset['create'], changeset['modify'],
                             changeset['delete'])
-                    cur.execute("""INSERT INTO user_history
-                                (timestamp,changeset,username,added,changed,deleted)
+                    cur.execute("""INSERT INTO history_users
+                                (timestamp,changeset,username,create,modify,delete)
                                 VALUES (%s, %s, %s, %s, %s, %s);""", info)
                     notifyList.append([info].append(user))
 
@@ -109,8 +109,8 @@ def objectFilter(objects):
                     info = (node['timestamp'], node['changeset'],
                             node['username'].encode('utf8'),
                             node['action'], 'n'+str(node['id']))
-                    cur.execute("""INSERT INTO object_history
-                                    (timestamp,changeset,username,action,objectid)
+                    cur.execute("""INSERT INTO history_objects
+                                    (timestamp,changeset,username,action,element)
                                     VALUES (%s, %s, %s, %s, %s);""", info)
                     notifyList.append(obj + [info])
 
@@ -119,8 +119,8 @@ def objectFilter(objects):
                     info = (way['timestamp'], way['changeset'],
                             way['username'].encode('utf8'),
                             way['action'], 'w'+str(way['id']))
-                    cur.execute("""INSERT INTO object_history
-                                    (timestamp,changeset,username,action,objectid)
+                    cur.execute("""INSERT INTO history_objects
+                                    (timestamp,changeset,username,action,element)
                                     VALUES (%s, %s, %s, %s, %s);""", info)
                     notifyList.append(obj + [info])
 
@@ -129,8 +129,8 @@ def objectFilter(objects):
                     info = (relation['timestamp'], relation['changeset'],
                             relation['username'].encode('utf8'),
                             relation['action'], 'r'+str(relation['id']))
-                    cur.execute("""INSERT INTO object_history
-                                    (timestamp,changeset,username,action,objectid)
+                    cur.execute("""INSERT INTO history_objects
+                                    (timestamp,changeset,username,action,element)
                                     VALUES (%s, %s, %s, %s, %s);""", info)
                     notifyList.append(obj + [info])
 
