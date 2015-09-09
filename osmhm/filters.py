@@ -4,6 +4,15 @@ from queries import *
 
 
 def suspiciousFilter(changesets):
+    """Set of rudimentary filters towards detecting possibly bad changesets.    
+
+    1: Large amount of additions
+    2: Large amount of modifications
+    3: Large amount of deletions
+    4: Large amount of combined actions
+    5: High proportion of deletions
+    6: High proportion of modifications
+    """
     whitelist = query_white_list()
 
     conn = connect.connect()
@@ -12,29 +21,50 @@ def suspiciousFilter(changesets):
     for changesetid, changeset in changesets.iteritems():
         if changeset['username'] in whitelist:
             continue
-        if changeset['delete'] > 0 and float(changeset['create'])/float(changeset['delete']) < 0.001:
-            info = (changeset['timestamp'], changesetid,
-                    changeset['username'].encode('utf8'),
-                    1, float(changeset['create'])/float(changeset['delete']))
-            cur.execute("""INSERT INTO history
-                            (timestamp,changeset,username,flag,quantity)
-                            VALUES (%s, %s, %s, %s, %s);""", info)
         if changeset['create'] > 1500:
             info = (changeset['timestamp'], changesetid,
                     changeset['username'].encode('utf8'),
-                    2, changeset['create'])
-            cur.execute("""INSERT INTO history
+                    1, changeset['create'])
+            cur.execute("""INSERT INTO history_filters
+                            (timestamp,changeset,username,flag,quantity)
+                            VALUES (%s, %s, %s, %s, %s);""", info)
+        if changeset['modify'] > 1500:
+            info = (changeset['timestamp'], changesetid,
+                    changeset['username'].encode('utf8'),
+                    2, changeset['modify'])
+            cur.execute("""INSERT INTO history_filters
                             (timestamp,changeset,username,flag,quantity)
                             VALUES (%s, %s, %s, %s, %s);""", info)
         if changeset['delete'] > 1500:
             info = (changeset['timestamp'], changesetid,
                     changeset['username'].encode('utf8'),
-                    3, changeset['create'])
-            cur.execute("""INSERT INTO history
+                    3, changeset['delete'])
+            cur.execute("""INSERT INTO history_filters
+                            (timestamp,changeset,username,flag,quantity)
+                            VALUES (%s, %s, %s, %s, %s);""", info)
+        if changeset['create'] + changeset['modify'] + changeset['delete'] > 1500:
+            info = (changeset['timestamp'], changesetid,
+                    changeset['username'].encode('utf8'),
+                    4, changeset['create'] + changeset['modify'] + changeset['delete'])
+            cur.execute("""INSERT INTO history_filters
+                            (timestamp,changeset,username,flag,quantity)
+                            VALUES (%s, %s, %s, %s, %s);""", info)
+        if changeset['delete'] > 0 and float(changeset['create']+changeset['modify'])/float(changeset['delete']) < 0.001:
+            info = (changeset['timestamp'], changesetid,
+                    changeset['username'].encode('utf8'),
+                    5, float(changeset['create']+changeset['modify'])/float(changeset['delete']))
+            cur.execute("""INSERT INTO history_filters
+                            (timestamp,changeset,username,flag,quantity)
+                            VALUES (%s, %s, %s, %s, %s);""", info)
+        if changeset['modify'] > 0 and float(changeset['create']+changeset['delete'])/float(changeset['modify']) < 0.001:
+            info = (changeset['timestamp'], changesetid,
+                    changeset['username'].encode('utf8'),
+                    6, float(changeset['create']+changeset['delete'])/float(changeset['modify']))
+            cur.execute("""INSERT INTO history_filters
                             (timestamp,changeset,username,flag,quantity)
                             VALUES (%s, %s, %s, %s, %s);""", info)
 
-    cur.execute("UPDATE filetime SET readflag = '%s';" % (True))
+    cur.execute("UPDATE file_list SET read_flag = '%s';" % (True))
     conn.commit()
 
 
