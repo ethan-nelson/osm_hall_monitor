@@ -30,7 +30,7 @@ def run():
 
             osmhm.filters.suspiciousFilter(changesets)
             osmhm.filters.objectFilter(objects)
-            osmhm.filters.userFilter(users)
+            osmhm.filters.userFilter(changesets)
 
         if sequence['timetype'] == 'minute':
             delta_time = 1

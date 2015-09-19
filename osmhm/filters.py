@@ -104,31 +104,17 @@ def objectFilter(objects):
 
     if watchedObjects:
         for obj in watchedObjects:
-            for node in objects.nodes.values():
-                if 'n'+str(node['id']) == obj:
-                    info = (node['timestamp'], node['changeset'],
-                            node['username'].encode('utf8'),
-                            node['action'], 'n'+str(node['id']))
-                    cur.execute("""INSERT INTO history_objects
-                                    (timestamp,changeset,username,action,element)
-                                    VALUES (%s, %s, %s, %s, %s);""", info)
-                    notifyList.append(obj + [info])
-
-            for way in objects.ways.values():
-                if 'w'+str(way['id']) == obj:
-                    info = (way['timestamp'], way['changeset'],
-                            way['username'].encode('utf8'),
-                            way['action'], 'w'+str(way['id']))
-                    cur.execute("""INSERT INTO history_objects
-                                    (timestamp,changeset,username,action,element)
-                                    VALUES (%s, %s, %s, %s, %s);""", info)
-                    notifyList.append(obj + [info])
-
-            for relation in objects.relations.values():
-                if 'r'+str(relation['id']) == obj:
-                    info = (relation['timestamp'], relation['changeset'],
-                            relation['username'].encode('utf8'),
-                            relation['action'], 'r'+str(relation['id']))
+            for item_id, item in objects.iteritems():
+                if item_id == obj:
+					if item['create'] == 1:
+						action = 'create'
+					elif item['modify'] == 1:
+						action = 'modify'
+					elif item['delete'] == 1:
+						action = 'delete'
+                    info = (item['timestamp'], item['changeset'],
+                            item['username'].encode('utf8'),
+                            action, item_id)
                     cur.execute("""INSERT INTO history_objects
                                     (timestamp,changeset,username,action,element)
                                     VALUES (%s, %s, %s, %s, %s);""", info)
