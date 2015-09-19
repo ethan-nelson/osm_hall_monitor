@@ -56,5 +56,5 @@ def fetch_next(current_sequence='', time='hour', reset=False):
     else:
         cur.execute("""UPDATE file_list SET
                        (sequence, timestamp, timetype, read)
-                       VALUES (%s, %s, %s, %s);""", info)
+                       = (%s, %s, %s, %s);""", info)
     conn.commit()

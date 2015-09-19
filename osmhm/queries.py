@@ -25,7 +25,7 @@ def query_object_list():
     conn = connect.connect()
     cur = conn.cursor()
 
-    cur.execute("SELECT number FROM watched_objects")
+    cur.execute("SELECT element FROM watched_objects")
     watched_objects = cur.fetchall()
     watched_objects = [name[0] for name in watched_objects]
 
