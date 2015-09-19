@@ -20,7 +20,7 @@ def sendNotification(notifyList, notificationType):
 
     for entry in notifyList:
         if notificationType == 'user':
-            if entry[4]:
+            if entry[5]:
                 MSG = """
 Dear %s,
 OSM Hall Monitor has detected an event for your consideration.
@@ -39,10 +39,10 @@ Problem? Feedback? Reply to this message.
 Best,
 
 OSM Hall Monitor
-""" % (entry[3], entry[5], entry[7], entry[6], entry[8], entry[9], entry[10], entry[2])
+""" % (entry[4], entry[0][0], entry[0][2], entry[0][1], entry[0][3], entry[0][4], entry[0][5], entry[3])
 
-                TO = [entry[4]]
-                NEWSUBJECT = '%s User %s ' % (SUBJECT, entry[7])
+                TO = [entry[5]]
+                NEWSUBJECT = '%s User %s ' % (SUBJECT, entry[0][2])
 
                 message = ("From: " + FROM,
                            "To: " + TO[0],
@@ -55,12 +55,12 @@ OSM Hall Monitor
                     pass
 
         elif notificationType == 'object':
-            if entry[4]:
-                if 'n' == entry[1][0]:
+            if entry[5]:
+                if 'n' == entry[0][4][0]:
                     pre = 'node'
-                elif 'w' == entry[1][0]:
+                elif 'w' == entry[0][4][0]:
                     pre = 'way'
-                elif 'r' == entry[1][0]:
+                elif 'r' == entry[0][4][0]:
                     pre = 'relation'
                 MSG = """
 Dear %s,
@@ -79,10 +79,10 @@ Problem? Feedback? Reply to this message.
 Best,
 
 OSM Hall Monitor
-""" % (entry[3], entry[5], pre, entry[1][1:], entry[6], entry[9], entry[7], entry[2])
+""" % (entry[4], entry[0][0], pre, entry[0][4][1:], entry[0][1], entry[0][3], entry[0][2], entry[3])
 
-                TO = [entry[4]]
-                NEWSUBJECT = '%s Object %s ' % (SUBJECT, entry[8])
+                TO = [entry[5]]
+                NEWSUBJECT = '%s Object %s ' % (SUBJECT, entry[0][4])
 
                 message = ("From: " + FROM,
                            "To: " + TO[0],

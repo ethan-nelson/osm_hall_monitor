@@ -79,15 +79,16 @@ def userFilter(changesets):
     if watchedUsers:
         for changesetid, changeset in changesets.iteritems():
             for user in watchedUsers:
-                if changeset['username'] == user:
+                if changeset['username'] == user['username']:
                     info = (changeset['timestamp'], changesetid,
                             changeset['username'].encode('utf8'),
                             changeset['create'], changeset['modify'],
                             changeset['delete'])
                     cur.execute("""INSERT INTO history_users
-                                (timestamp,changeset,username,create,modify,delete)
-                                VALUES (%s, %s, %s, %s, %s, %s);""", info)
-                    notifyList.append([info].append(user))
+                                    (timestamp,changeset,username,created,modified,deleted)
+                                    VALUES (%s, %s, %s, %s, %s, %s);""", info)
+
+                    notifyList.append([info] + user)
 
         conn.commit()
     if notifyList:
@@ -105,20 +106,19 @@ def objectFilter(objects):
     if watchedObjects:
         for obj in watchedObjects:
             for item_id, item in objects.iteritems():
-                if item_id == obj:
+                if item_id == obj['element']:
 					if item['create'] == 1:
 						action = 'create'
 					elif item['modify'] == 1:
 						action = 'modify'
 					elif item['delete'] == 1:
 						action = 'delete'
-                    info = (item['timestamp'], item['changeset'],
-                            item['username'].encode('utf8'),
-                            action, item_id)
-                    cur.execute("""INSERT INTO history_objects
+					info = (item['timestamp'], item['changeset'],
+					    item['username'].encode('utf8'), action, item_id)
+					cur.execute("""INSERT INTO history_objects
                                     (timestamp,changeset,username,action,element)
                                     VALUES (%s, %s, %s, %s, %s);""", info)
-                    notifyList.append(obj + [info])
+					notifyList.append([info] + obj)
 
         conn.commit()
     if notifyList:

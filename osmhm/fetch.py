@@ -37,7 +37,11 @@ def fetch_next(current_sequence='', time='hour', reset=False):
     else:
         end = 3
 
+
     u = requests.get(state_url)
+
+    if u.status_code == 404:
+        raise Exception
 
     vals = u.text.encode('utf-8').split('\n')
     state = {}
