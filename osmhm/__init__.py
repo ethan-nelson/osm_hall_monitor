@@ -28,9 +28,9 @@ def run():
             objects = osmdt.extract_objects(data_object)
             users = osmdt.extract_users(data_object)
 
-            osmdt.filters.suspiciousFilter(changesets)
-            omsdt.filters.objectFilter(objects)
-            osmdt.filters.userFilter(users)
+            osmhm.filters.suspiciousFilter(changesets)
+            omshm.filters.objectFilter(objects)
+            osmhm.filters.userFilter(users)
 
         if sequence['timetype'] == 'minute':
             delta_time = 1
