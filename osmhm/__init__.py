@@ -29,7 +29,7 @@ def run():
             users = osmdt.extract_users(data_object)
 
             osmhm.filters.suspiciousFilter(changesets)
-            omshm.filters.objectFilter(objects)
+            osmhm.filters.objectFilter(objects)
             osmhm.filters.userFilter(users)
 
         if sequence['timetype'] == 'minute':
