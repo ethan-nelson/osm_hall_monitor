@@ -6,7 +6,7 @@ setup(name='osm_hall_monitor',
       url='http://github.com/ethan-nelson/osm_hall_monitor',
       author='Ethan Nelson',
       author_email='ethan-nelson@users.noreply.github.com',
-      install_requires = ['psycopg2','osmdt'],
+      install_requires = ['psycopg2','osm_diff_tool'],
       packages=['osmhm'],
       zip_safe=False)
       
