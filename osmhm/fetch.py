@@ -1,6 +1,6 @@
 from connect import connect
 import requests
-
+headers = {'user-agent': 'OSM Hall Monitor v0.3'}
 
 def fetch_last_read():
     """
@@ -37,8 +37,7 @@ def fetch_next(current_sequence='', time='hour', reset=False):
     else:
         end = 3
 
-
-    u = requests.get(state_url)
+    u = requests.get(state_url, headers=headers)
 
     if u.status_code == 404:
         raise Exception

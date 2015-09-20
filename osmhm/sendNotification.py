@@ -12,9 +12,9 @@ def sendNotification(notifyList, notificationType):
         server.sendmail(FROM, TO, msg)
         server.quit()
 
-    SERVER = 'smtp.live.com'
+    SERVER = os.environ['EMAIL_SERVER']
 
-    FROM = 'osmhallmonitor@outlook.com'
+    FROM = os.environ['EMAIL_USER']
 
     SUBJECT = 'OSM Hall Monitor Notification |'
 
