@@ -64,7 +64,6 @@ def suspiciousFilter(changesets):
                             (timestamp,changeset,username,flag,quantity)
                             VALUES (%s, %s, %s, %s, %s);""", info)
 
-    cur.execute("UPDATE file_list SET read = '%s';" % (True))
     conn.commit()
 
 

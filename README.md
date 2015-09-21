@@ -32,7 +32,7 @@ Sample calls available for now:
 ```
 import osmhm
 
-
+osmhm.run(history=False) #Searches for vandalism without logging every single changeset
 ```
 
 More information will be coming soon and the tool will continue to be improved, including the option to remove the dependency on psycopg2 and a postgres database to store everything.

@@ -1,8 +1,8 @@
 import fetch
 import filters
+import inserts
 
-
-def run():
+def run(history=True,suspicious=True,monitor=True):
     """
     """
     import osmhm
@@ -28,9 +28,17 @@ def run():
             objects = osmdt.extract_objects(data_object)
             users = osmdt.extract_users(data_object)
 
-            osmhm.filters.suspiciousFilter(changesets)
-            osmhm.filters.objectFilter(objects)
-            osmhm.filters.userFilter(changesets)
+            if history:
+                osmhm.inserts.insert_all_changesets(changesets)
+
+            if suspicious:
+                osmhm.filters.suspiciousFilter(changesets)
+
+            if monitor:
+                osmhm.filters.objectFilter(objects)
+                osmhm.filters.userFilter(changesets)
+
+            osmhm.inserts.insert_file_read()
 
         if sequence['timetype'] == 'minute':
             delta_time = 1
