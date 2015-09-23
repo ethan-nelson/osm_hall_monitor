@@ -5,11 +5,11 @@ This module is a passive changeset monitoring tool for use with OpenStreetMap. I
 
 Features that will eventually be available to look for:
 
-* Large numbers of edits in a changeset, or a large proportion of modifications/deletions (with the option to use a whitelist)
+* ~~Large numbers of edits in a changeset, or a large proportion of modifications/deletions (with the option to use a whitelist)~~ (mostly)
 * Edits that range across long distances
 * Edits to certain tags
-* Edits by watched users
-* Edits to watched objects
+* ~~Edits by watched users~~
+* ~~Edits to watched objects~~
 * Edits with certain keywords
 * Edits in a certain area
 * Objects that have a very similar structure of a list of objects commonly drawn for vandalism (you know what we're talking about)
@@ -32,7 +32,7 @@ Sample calls available for now:
 ```
 import osmhm
 
-osmhm.run(history=False) #Searches for vandalism without logging every single changeset
+osmhm.run(history=False, monitor=True, suspicious=True) # Does not log full history, does watch flagged objects and users, and does look for strange changesets
 ```
 
 More information will be coming soon and the tool will continue to be improved, including the option to remove the dependency on psycopg2 and a postgres database to store everything.
