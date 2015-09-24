@@ -20,7 +20,9 @@ Features that will eventually be available to look for:
 Requirements
 ------------
 
-[OpenStreetMap Diff Tool](http://www.github.com/ethan-nelson/osm_diff_tool) is required. If you use the setup.py file, it should fetch the repository from pypi. Also, psycopg2 is necessary at the moment for all the database work.
+[OpenStreetMap Diff Tool](http://www.github.com/ethan-nelson/osm_diff_tool) is required. If you use the setup.py file, it should fetch the repository from pypi.
+
+Also, psycopg2 is necessary at the moment for all the database work. Again, setup.py should fetch this.
 
 Installation
 ------------
@@ -41,7 +43,7 @@ Method 2 - Development
 Method 3 - Development
 ======================
 
-`$pip install git+https://github/ethan-nelson/osm_diff_tool.git`
+`$pip install git+https://github/ethan-nelson/osm_hall_monitor.git`
 
 
 Database setup
