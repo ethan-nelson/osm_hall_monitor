@@ -1,6 +1,8 @@
 import fetch
 import filters
 import inserts
+import tables
+import config
 
 def run(history=True,suspicious=True,monitor=True):
     """
