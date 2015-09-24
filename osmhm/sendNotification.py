@@ -1,5 +1,6 @@
 import smtplib
 import os
+import config
 
 
 def sendNotification(notifyList, notificationType):
@@ -8,13 +9,13 @@ def sendNotification(notifyList, notificationType):
         server.ehlo()
         server.starttls()
         server.ehlo()
-        server.login(os.environ['EMAIL_USER'],os.environ['EMAIL_PASS'])
+        server.login(config.email_user, config.email_password)
         server.sendmail(FROM, TO, msg)
         server.quit()
 
-    SERVER = os.environ['EMAIL_SERVER']
+    SERVER = config.email_server
 
-    FROM = os.environ['EMAIL_USER']
+    FROM = config.email_user
 
     SUBJECT = 'OSM Hall Monitor Notification |'
 
