@@ -1,12 +1,13 @@
 import urlparse
 import os
 import psycopg2
+import config
 from psycopg2.extras import DictCursor
 
 
 def connect():
     urlparse.uses_netloc.append('postgres')
-    db_url = urlparse.urlparse(os.environ['DATABASE_URL'])
+    db_url = urlparse.urlparse(config.database_url)
     try:
         connection = psycopg2.connect(
             database=db_url.path[1:],

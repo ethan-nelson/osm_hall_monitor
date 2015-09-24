@@ -22,6 +22,51 @@ Requirements
 
 [OpenStreetMap Diff Tool](http://www.github.com/ethan-nelson/osm_diff_tool) is required. If you use the setup.py file, it should fetch the repository from pypi. Also, psycopg2 is necessary at the moment for all the database work.
 
+Installation
+------------
+
+Method 1 - Release
+==================
+
+`$pip install osm_hall_monitor`
+
+Method 2 - Development
+======================
+
+* Download the zip.
+* Unpack the zip somewhere.
+* Navigate to somewhere.
+* `$python setup.py install`
+
+Method 3 - Development
+======================
+
+`$pip install git+https://github/ethan-nelson/osm_diff_tool.git`
+
+
+Database setup
+--------------
+
+A few comments on the database setup. Right now, this depends on a Postgres database for all the storage. Following the procedure of PaaSs, OSM Hall Monitor looks for the database information in the environment. This is set up (in a mostly orthodox way) as:
+
+`DATABASE_URL = "postgres://username:password@hostname:port/database_name`
+
+Users may often have this configured for something else, so the fetched database information can be configured within the program via the config module. (N.B. This must be done every time the module is imported.)
+
+```
+import osmhm
+
+osmhm.config.database_url = "postgres://username:password@hostname:port/database_name"
+
+#Continue with things.
+```
+
+Once the database is configured, you can begin building the tables necessary. This is accomplished via the tables module:
+
+```
+osmhm.tables.all_tables('create')
+```
+
 Use
 ---
 
