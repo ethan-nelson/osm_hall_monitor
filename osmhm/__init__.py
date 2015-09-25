@@ -4,7 +4,7 @@ import inserts
 import tables
 import config
 
-def run(time_type='hour', history=True, suspicious=True, monitor=True):
+def run(time_type='hour', history=True, suspicious=True, monitor=True, notification=False):
     """
     """
     import osmhm
@@ -37,10 +37,11 @@ def run(time_type='hour', history=True, suspicious=True, monitor=True):
                 osmhm.filters.suspiciousFilter(changesets)
 
             if monitor:
-                osmhm.filters.objectFilter(objects)
-                osmhm.filters.userFilter(changesets)
+                osmhm.filters.objectFilter(objects, notification=notification)
+                osmhm.filters.userFilter(changesets, notification=notification)
 
             osmhm.inserts.insert_file_read()
+            print "Finished processing %s." % (sequence['sequencenumber'])
 
         if sequence['timetype'] == 'minute':
             delta_time = 1
@@ -67,7 +68,7 @@ def run(time_type='hour', history=True, suspicious=True, monitor=True):
         while True:
             try:
                 count += 1
-                osmhm.fetch.fetch_next(sequence['sequencenumber'], time=time_type)
+                osmhm.fetch.fetch_next(sequence['sequencenumber'], time_type=time_type)
                 break
             except:
                 if count == 5: raise Exception('New state file not retrievable after five times.')

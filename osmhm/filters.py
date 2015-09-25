@@ -67,7 +67,7 @@ def suspiciousFilter(changesets):
     conn.commit()
 
 
-def userFilter(changesets):
+def userFilter(changesets, notification=False):
     notifyList = []
 
     watchedUsers = query_user_list()
@@ -90,11 +90,11 @@ def userFilter(changesets):
                     notifyList.append([info] + user)
 
         conn.commit()
-    if notifyList:
+    if notifyList and notification:
         sendNotification(notifyList, 'user')    
 
 
-def objectFilter(objects):
+def objectFilter(objects, notification=False):
     notifyList = []
 
     watchedObjects = query_object_list()
@@ -120,5 +120,5 @@ def objectFilter(objects):
 					notifyList.append([info] + obj)
 
         conn.commit()
-    if notifyList:
+    if notifyList and notification:
         sendNotification(notifyList, 'object')
