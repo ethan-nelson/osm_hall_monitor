@@ -4,7 +4,7 @@ import inserts
 import tables
 import config
 
-def run(history=True,suspicious=True,monitor=True):
+def run(time_type='hour', history=True, suspicious=True, monitor=True):
     """
     """
     import osmhm
@@ -17,13 +17,13 @@ def run(history=True,suspicious=True,monitor=True):
         sequence = osmhm.fetch.fetch_last_read()
 
         if not sequence:
-            osmhm.fetch.fetch_next(reset=True)
+            osmhm.fetch.fetch_next(time_type=time_type, reset=True)
             sequence = osmhm.fetch.fetch_last_read()
 
         if sequence['read_flag'] == False:
             print "Processing sequence %s." % (sequence['sequencenumber'])
 
-            data_stream = osmdt.fetch(sequence['sequencenumber'])
+            data_stream = osmdt.fetch(sequence['sequencenumber'], time=time_type)
             data_object = osmdt.process(data_stream)
 
             changesets = osmdt.extract_changesets(data_object)
@@ -67,7 +67,7 @@ def run(history=True,suspicious=True,monitor=True):
         while True:
             try:
                 count += 1
-                osmhm.fetch.fetch_next(sequence['sequencenumber'])
+                osmhm.fetch.fetch_next(sequence['sequencenumber'], time=time_type)
                 break
             except:
                 if count == 5: raise Exception('New state file not retrievable after five times.')

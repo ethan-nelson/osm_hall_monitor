@@ -19,20 +19,20 @@ def fetch_last_read():
         return None
 
 
-def fetch_next(current_sequence='', time='hour', reset=False):
+def fetch_next(current_sequence='', time_type='hour', reset=False):
     """
     """
     if reset == True:
         state_url = "http://planet.openstreetmap.org/replication/%s/state.txt" %\
-            (time)
+            (time_type)
 
     else:
         next_sequence = int(current_sequence) + 1
         sqnStr = str(next_sequence).zfill(9)
         state_url = "http://planet.openstreetmap.org/replication/%s/%s/%s/%s.state.txt" %\
-            (time, sqnStr[0:3], sqnStr[3:6], sqnStr[6:9])
+            (time_type, sqnStr[0:3], sqnStr[3:6], sqnStr[6:9])
 
-    if time == 'minute':
+    if time_type == 'minute':
         end = 5
     else:
         end = 3
@@ -48,7 +48,7 @@ def fetch_next(current_sequence='', time='hour', reset=False):
         (k, v) = val.split('=')
         state[k.lower()] = v.strip().replace("\\:", ":")
 
-    info = (state['sequencenumber'], state['timestamp'], time, False)
+    info = (state['sequencenumber'], state['timestamp'], time_type, False)
     conn = connect()
     cur = conn.cursor()
     if reset == True:
