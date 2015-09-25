@@ -1,5 +1,4 @@
 import urlparse
-import os
 import psycopg2
 import config
 from psycopg2.extras import DictCursor

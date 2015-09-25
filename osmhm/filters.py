@@ -1,6 +1,6 @@
 import connect
-from sendNotification import sendNotification
-from queries import *
+import send_notification
+import queries
 
 
 def suspiciousFilter(changesets):
@@ -13,7 +13,7 @@ def suspiciousFilter(changesets):
     5: High proportion of deletions
     6: High proportion of modifications
     """
-    whitelist = query_white_list()
+    whitelist = queries.query_white_list()
 
     conn = connect.connect()
     cur = conn.cursor()
@@ -68,16 +68,16 @@ def suspiciousFilter(changesets):
 
 
 def userFilter(changesets, notification=False):
-    notifyList = []
+    notify_list = []
 
-    watchedUsers = query_user_list()
+    watched_users = queries.query_user_list()
 
     conn = connect.connect()
     cur = conn.cursor()
 
-    if watchedUsers:
+    if watched_users:
         for changesetid, changeset in changesets.iteritems():
-            for user in watchedUsers:
+            for user in watched_users:
                 if changeset['username'] == user['username']:
                     info = (changeset['timestamp'], changesetid,
                             changeset['username'].encode('utf8'),
@@ -87,23 +87,23 @@ def userFilter(changesets, notification=False):
                                     (timestamp,changeset,username,created,modified,deleted)
                                     VALUES (%s, %s, %s, %s, %s, %s);""", info)
 
-                    notifyList.append([info] + user)
+                    notify_list.append([info] + user)
 
         conn.commit()
-    if notifyList and notification:
-        sendNotification(notifyList, 'user')    
+    if notify_list and notification:
+        send_notification.send_notification(notify_list, 'user')    
 
 
 def objectFilter(objects, notification=False):
-    notifyList = []
+    notify_list = []
 
-    watchedObjects = query_object_list()
+    watched_objects = queries.query_object_list()
 
     conn = connect.connect()
     cur = conn.cursor()
 
-    if watchedObjects:
-        for obj in watchedObjects:
+    if watched_objects:
+        for obj in watched_objects:
             for item_id, item in objects.iteritems():
                 if item_id == obj['element']:
 					if item['create'] == 1:
@@ -117,8 +117,8 @@ def objectFilter(objects, notification=False):
 					cur.execute("""INSERT INTO history_objects
                                     (timestamp,changeset,username,action,element)
                                     VALUES (%s, %s, %s, %s, %s);""", info)
-					notifyList.append([info] + obj)
+					notify_list.append([info] + obj)
 
         conn.commit()
-    if notifyList and notification:
-        sendNotification(notifyList, 'object')
+    if notify_list and notification:
+        send_notification.send_notification(notify_list, 'object')

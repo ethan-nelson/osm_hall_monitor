@@ -2,6 +2,7 @@ from connect import connect
 import requests
 headers = {'user-agent': 'OSM Hall Monitor v0.3'}
 
+
 def fetch_last_read():
     """
     """
@@ -11,8 +12,8 @@ def fetch_last_read():
     sequence = {}
     cur.execute("SELECT * FROM file_list;")
     try:
-        foo, sequence['sequencenumber'], sequence['timestamp'], sequence['timetype'],\
-            sequence['read_flag'] = cur.fetchone()
+        foo, sequence['sequencenumber'], sequence['timestamp'],\
+            sequence['timetype'], sequence['read_flag'] = cur.fetchone()
 
         return sequence
     except:
@@ -22,15 +23,15 @@ def fetch_last_read():
 def fetch_next(current_sequence='', time_type='hour', reset=False):
     """
     """
-    if reset == True:
+    if reset is True:
         state_url = "http://planet.openstreetmap.org/replication/%s/state.txt" %\
             (time_type)
 
     else:
         next_sequence = int(current_sequence) + 1
-        sqnStr = str(next_sequence).zfill(9)
+        sequence_string = str(next_sequence).zfill(9)
         state_url = "http://planet.openstreetmap.org/replication/%s/%s/%s/%s.state.txt" %\
-            (time_type, sqnStr[0:3], sqnStr[3:6], sqnStr[6:9])
+            (time_type, sequence_string[0:3], sequence_string[3:6], sequence_string[6:9])
 
     if time_type == 'minute':
         end = 5
@@ -51,7 +52,7 @@ def fetch_next(current_sequence='', time_type='hour', reset=False):
     info = (state['sequencenumber'], state['timestamp'], time_type, False)
     conn = connect()
     cur = conn.cursor()
-    if reset == True:
+    if reset is True:
         cur.execute("DELETE FROM file_list;")
         cur.execute("""INSERT INTO file_list
                        (sequence, timestamp, timetype, read)

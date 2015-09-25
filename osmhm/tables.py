@@ -1,6 +1,7 @@
 import connect
 
 
+error_message = 'Action is not defined. Please use create, truncate, or drop.'
 def file_list(action):
     conn = connect.connect()
     cur = conn.cursor()
@@ -23,7 +24,7 @@ def file_list(action):
               DROP TABLE file_list;
               """)
     else:
-        raise NotImplementedError('Action is not defined. Please use create, truncate, or drop.')
+        raise NotImplementedError(error_message)
     conn.commit()
 
 
@@ -51,7 +52,7 @@ def history_users(action):
             DROP TABLE history_users;
             """)
     else:
-        raise NotImplementedError('Action is not defined. Please use create, truncate, or drop.')
+        raise NotImplementedError(error_message)
     conn.commit()
 
 
@@ -79,7 +80,7 @@ def history_all_users(action):
             DROP TABLE history_all_users;
             """)
     else:
-        raise NotImplementedError('Action is not defined. Please use create, truncate, or drop.')
+        raise NotImplementedError(error_message)
     conn.commit()
 
 
@@ -107,7 +108,7 @@ def history_all_changesets(action):
             DROP TABLE history_all_changesets;
             """)
     else:
-        raise NotImplementedError('Action is not defined. Please use create, truncate, or drop.')
+        raise NotImplementedError(error_message)
     conn.commit()
 
 
@@ -134,7 +135,7 @@ def history_objects(action):
             DROP TABLE history_objects;
             """)
     else:
-        raise NotImplementedError('Action is not defined. Please use create, truncate, or drop.')
+        raise NotImplementedError(error_message)
     conn.commit()
 
 
@@ -161,7 +162,7 @@ def history_filters(action):
             DROP TABLE history_filters;
             """)
     else:
-        raise NotImplementedError('Action is not defined. Please use create, truncate, or drop.')
+        raise NotImplementedError(error_message)
     conn.commit()
 
 
@@ -187,7 +188,7 @@ def watched_users(action):
             DROP TABLE watched_users;
             """)
     else:
-        raise NotImplementedError('Action is not defined. Please use create, truncate, or drop.')
+        raise NotImplementedError(error_message)
     conn.commit()
 
 
@@ -213,7 +214,7 @@ def watched_objects(action):
             DROP TABLE watched_objects;
             """)
     else:
-        raise NotImplementedError('Action is not defined. Please use create, truncate, or drop.')
+        raise NotImplementedError(error_message)
     conn.commit()
 
 
@@ -238,7 +239,7 @@ def whitelisted_users(action):
             DROP TABLE whitelisted_users;
             """)
     else:
-        raise NotImplementedError('Action is not defined. Please use create, truncate, or drop.')
+        raise NotImplementedError(error_message)
     conn.commit()
 
 
@@ -251,7 +252,7 @@ def all_tables(action):
     elif action in ['drop', 'delete', 'd']:
         message = "You are about to drop all tables for OSM Hall Monitor. Are you sure? (Y or N): "
     else:
-        raise NotImplementedError('Action is not defined. Please use create, truncate, or drop.')
+        raise NotImplementedError(error_message)
 
     response = str(raw_input(message))
 

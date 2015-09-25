@@ -1,10 +1,9 @@
 import smtplib
-import os
 import config
 
 
-def sendNotification(notifyList, notificationType):
-    def sendMail(FROM, TO, msg):
+def send_notification(notify_list, notification_type):
+    def send_mail(FROM, TO, msg):
         server = smtplib.SMTP(SERVER, 587)
         server.ehlo()
         server.starttls()
@@ -19,8 +18,8 @@ def sendNotification(notifyList, notificationType):
 
     SUBJECT = 'OSM Hall Monitor Notification |'
 
-    for entry in notifyList:
-        if notificationType == 'user':
+    for entry in notify_list:
+        if notification_type == 'user':
             if entry[5]:
                 MSG = """
 Dear %s,
@@ -51,11 +50,11 @@ OSM Hall Monitor
                            "", MSG)
                 msg = '\r\n'.join(message)
                 try:
-                    sendMail(FROM, TO, msg)
+                    send_mail(FROM, TO, msg)
                 except:
                     pass
 
-        elif notificationType == 'object':
+        elif notification_type == 'object':
             if entry[5]:
                 if 'n' == entry[0][4][0]:
                     pre = 'node'
@@ -91,8 +90,6 @@ OSM Hall Monitor
                            "", MSG)
                 msg = '\r\n'.join(message)
                 try:
-                    sendMail(FROM, TO, msg)
+                    send_mail(FROM, TO, msg)
                 except:
                     pass
-
-

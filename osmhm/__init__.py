@@ -3,8 +3,11 @@ import filters
 import inserts
 import tables
 import config
+import send_notification
 
-def run(time_type='hour', history=True, suspicious=True, monitor=True, notification=False):
+
+def run(time_type='hour', history=True, suspicious=True, monitor=True,
+        notification=False):
     """
     """
     import osmhm
@@ -20,7 +23,7 @@ def run(time_type='hour', history=True, suspicious=True, monitor=True, notificat
             osmhm.fetch.fetch_next(time_type=time_type, reset=True)
             sequence = osmhm.fetch.fetch_last_read()
 
-        if sequence['read_flag'] == False:
+        if sequence['read_flag'] is False:
             print "Processing sequence %s." % (sequence['sequencenumber'])
 
             data_stream = osmdt.fetch(sequence['sequencenumber'], time=time_type)
@@ -53,11 +56,11 @@ def run(time_type='hour', history=True, suspicious=True, monitor=True, notificat
             delta_time = 1440
             extra_time = 300
 
-        next_time = datetime.datetime.strptime(sequence['timestamp'], 
-                        "%Y-%m-%dT%H:%M:%SZ") + datetime.timedelta(minutes=delta_time)
+        next_time = datetime.datetime.strptime(sequence['timestamp'],
+                      "%Y-%m-%dT%H:%M:%SZ") + datetime.timedelta(minutes=delta_time)
 
         if datetime.datetime.utcnow() < next_time:
-            sleep_time = (next_time - datetime.datetime.utcnow()).seconds + delta_time # We add an order of time smaller pause
+            sleep_time = (next_time - datetime.datetime.utcnow()).seconds + delta_time
             print "Waiting %2.1f seconds for the next file." % (sleep_time)
         else:
             sleep_time = 0
@@ -71,6 +74,8 @@ def run(time_type='hour', history=True, suspicious=True, monitor=True, notificat
                 osmhm.fetch.fetch_next(sequence['sequencenumber'], time_type=time_type)
                 break
             except:
-                if count == 5: raise Exception('New state file not retrievable after five times.')
+                if count == 5:
+                    msg = 'New state file not retrievable after five times.'
+                    raise Exception(msg)
                 print "Waiting %2.1f more seconds..." % (extra_time)
                 time.sleep(extra_time)

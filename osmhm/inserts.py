@@ -14,7 +14,9 @@ def insert_all_users(users):
     cur = conn.cursor()
 
     for username, user in users.iteritems():
-        info = (username, user["changesets"], user["timestamps"], user["action"]["create"], user["action"]["modify"], user["action"]["delete"])
+        info = (username, user["changesets"], user["timestamps"],
+                    user["action"]["create"], user["action"]["modify"],
+                    user["action"]["delete"])
         cur.execute("""INSERT INTO history_all_users
                         (username, changeset, timestamp, created, modified, deleted)
                         VALUES (%s, %s, %s, %s, %s, %s);""", info)
@@ -27,7 +29,9 @@ def insert_all_changesets(changesets):
     cur = conn.cursor()
 
     for changesetid, changeset in changesets.iteritems():
-        info = (changesetid, changeset["username"], changeset["timestamp"], changeset["create"], changeset["modify"], changeset["delete"])
+        info = (changesetid, changeset["username"], changeset["timestamp"],
+                    changeset["create"], changeset["modify"],
+                    changeset["delete"])
         cur.execute("""INSERT INTO history_all_changesets
                        (changeset, username, timestamp, created, modified, deleted)
                        VALUES (%s, %s, %s, %s, %s, %s);""", info)
