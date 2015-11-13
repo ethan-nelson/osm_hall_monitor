@@ -139,18 +139,18 @@ def keyFilter(objects, notification=False):
                 for item_key in item['tags']:
                     if fnmatch.fnmatch(item_key,key['key']) and fnmatch.fnmatch(item['tags'][item_key],key['value']):
                         if item['create'] == 1:
-        					action = 'create'
-		    			elif item['modify'] == 1:
-			    			action = 'modify'
-	    				elif item['delete'] == 1:
-    						action = 'delete'
-    					info = (item['timestamp'], item['changeset'],
+                            action = 'create'
+                        elif item['modify'] == 1:
+                            action = 'modify'
+                        elif item['delete'] == 1:
+                            action = 'delete'
+                        info = (item['timestamp'], item['changeset'],
                         item['username'].encode('utf8'), action,
                         item_key, item['tags'][item_key])
-    					cur.execute("""INSERT INTO history_keys
+                        cur.execute("""INSERT INTO history_keys
                                     (timestamp,changeset,username,action,key,value)
                                     VALUES (%s, %s, %s, %s, %s, %s);""", info)
-    					notify_list.append([info])
+                        notify_list.append([info])
 
         conn.commit()
     if notify_list and notification:

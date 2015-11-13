@@ -82,6 +82,7 @@ def remove_watched_key(key, value):
 
     conn.commit()
 
+
 def add_whitelisted_user(username, reason, author):
     """
     """
@@ -96,6 +97,7 @@ def add_whitelisted_user(username, reason, author):
 
     conn.commit()
 
+
 def remove_whitelisted_user(username):
     """
     """
@@ -106,5 +108,3 @@ def remove_whitelisted_user(username):
                    username = %s;""", username)
 
     conn.commit()
-
-

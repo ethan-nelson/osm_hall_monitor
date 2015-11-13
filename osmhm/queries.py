@@ -11,6 +11,7 @@ def query_white_list():
 
     return white_list
 
+
 def query_user_list():
     conn = connect.connect()
     cur = conn.cursor()
@@ -19,6 +20,7 @@ def query_user_list():
     watched_users = cur.fetchall()
 
     return watched_users
+
 
 def query_object_list():
     conn = connect.connect()
@@ -29,6 +31,7 @@ def query_object_list():
 
     return watched_objects
 
+
 def query_key_list():
     conn = connect.connect()
     cur = conn.cursor()
@@ -37,6 +40,7 @@ def query_key_list():
     watched_keys = cur.fetchall()
 
     return watched_keys
+
 
 def query_block_list():
     pass
