@@ -56,6 +56,32 @@ def remove_watched_object(element):
     conn.commit()
 
 
+def add_watched_key(key, value, note, author, email):
+    """
+    """
+    conn = connect.connect()
+    cur = conn.cursor()
+
+    info = (key, value, note, author, email)
+
+    cur.execute("""INSERT INTO watched_keys
+                   (key, value, reason, author, email)
+                   VALUES (%s, %s, %s, %s, %s);""", info)
+
+    conn.commit()
+
+
+def remove_watched_key(key, value):
+    """
+    """
+    conn = connect.connect()
+    cur = conn.cursor()
+
+    cur.execute("""DELETE FROM watched_keys WHERE
+                   key = %s AND value = %s;""", (key, value))
+
+    conn.commit()
+
 def add_whitelisted_user(username, reason, author):
     """
     """

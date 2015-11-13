@@ -29,5 +29,14 @@ def query_object_list():
 
     return watched_objects
 
+def query_key_list():
+    conn = connect.connect()
+    cur = conn.cursor()
+
+    cur.execute("SELECT * FROM watched_keys")
+    watched_keys = cur.fetchall()
+
+    return watched_keys
+
 def query_block_list():
     pass

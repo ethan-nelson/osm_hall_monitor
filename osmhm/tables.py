@@ -139,6 +139,34 @@ def history_objects(action):
     conn.commit()
 
 
+def history_keys(action):
+    conn = connect.connect()
+    cur = conn.cursor()
+    if action in ['create', 'c']:
+        cur.execute("""
+            CREATE TABLE history_keys (
+              id SERIAL NOT NULL PRIMARY KEY,
+              key TEXT NOT NULL,
+              value TEXT NOT NULL,
+              username TEXT NOT NULL,
+              changeset BIGINT NOT NULL,
+              timestamp TEXT NOT NULL,
+              action TEXT
+            );
+            """)
+    elif action in ['truncate', 't']:
+        cur.execute("""
+            TRUNCATE TABLE history_keys;
+            """)
+    elif action in ['drop', 'delete', 'd']:
+        cur.execute("""
+            DROP TABLE history_keys;
+            """)
+    else:
+        raise NotImplementedError(error_message)
+    conn.commit()
+
+
 def history_filters(action):
     conn = connect.connect()
     cur = conn.cursor()
@@ -218,6 +246,33 @@ def watched_objects(action):
     conn.commit()
 
 
+def watched_keys(action):
+    conn = connect.connect()
+    cur = conn.cursor()
+    if action in ['create', 'c']:
+        cur.execute("""
+            CREATE TABLE watched_keys (
+              id SERIAL NOT NULL PRIMARY KEY,
+              key TEXT NOT NULL,
+              value TEXT NOT NULL,
+              reason TEXT,
+              author TEXT,
+              email TEXT
+            );
+            """)
+    elif action in ['truncate', 't']:
+        cur.execute("""
+            TRUNCATE TABLE watched_keys;
+            """)
+    elif action in ['drop', 'delete', 'd']:
+        cur.execute("""
+            DROP TABLE watched_keys;
+            """)
+    else:
+        raise NotImplementedError(error_message)
+    conn.commit()
+
+
 def whitelisted_users(action):
     conn = connect.connect()
     cur = conn.cursor()
@@ -273,9 +328,11 @@ def all_tables(action):
     history_all_users(action)
     history_all_changesets(action)
     history_objects(action)
+    history_keys(action)
     history_filters(action)
     watched_users(action)
     watched_objects(action)
+    watched_keys(action)
     whitelisted_users(action)
 
     print 'Done.'

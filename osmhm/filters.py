@@ -1,6 +1,7 @@
 import connect
 import send_notification
 import queries
+import fnmatch
 
 
 def suspiciousFilter(changesets):
@@ -122,3 +123,35 @@ def objectFilter(objects, notification=False):
         conn.commit()
     if notify_list and notification:
         send_notification.send_notification(notify_list, 'object')
+
+
+def keyFilter(objects, notification=False):
+    notify_list = []
+
+    watched_keys = queries.query_key_list()
+
+    conn = connect.connect()
+    cur = conn.cursor()
+
+    if watched_keys:
+        for key in watched_keys:
+            for item_id, item in objects.iteritems():
+                for item_key in item['tags']:
+                    if fnmatch.fnmatch(item_key,key['key']) and fnmatch.fnmatch(item['tags'][item_key],key['value']):
+                        if item['create'] == 1:
+        					action = 'create'
+		    			elif item['modify'] == 1:
+			    			action = 'modify'
+	    				elif item['delete'] == 1:
+    						action = 'delete'
+    					info = (item['timestamp'], item['changeset'],
+                        item['username'].encode('utf8'), action,
+                        item_key, item['tags'][item_key])
+    					cur.execute("""INSERT INTO history_keys
+                                    (timestamp,changeset,username,action,key,value)
+                                    VALUES (%s, %s, %s, %s, %s, %s);""", info)
+    					notify_list.append([info])
+
+        conn.commit()
+    if notify_list and notification:
+        send_notification.send_notification(notify_list, 'key')
