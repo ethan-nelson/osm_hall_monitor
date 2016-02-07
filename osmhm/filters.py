@@ -79,7 +79,7 @@ def userFilter(changesets, notification=False):
     if watched_users:
         for changesetid, changeset in changesets.iteritems():
             for user in watched_users:
-                if fnmatch.fnmatch(changeset['username'],user['username']):
+                if fnmatch.fnmatch(changeset['username'].encode('utf-8'), user['username']):
                     info = (changeset['timestamp'], changesetid,
                             changeset['username'].encode('utf8'),
                             changeset['create'], changeset['modify'],
