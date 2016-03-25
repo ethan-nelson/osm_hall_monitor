@@ -1,21 +1,7 @@
 OpenStreetMap Hall Monitor
 ==========================
 
-This module is a passive changeset monitoring tool for use with OpenStreetMap. It's still under construction as I am moving from v0 (a beta site that was mixed with other tools) to v1 (a standalone data processor).
-
-Features that will eventually be available to look for:
-
-* ~~Large numbers of edits in a changeset, or a large proportion of modifications/deletions (with the option to use a whitelist)~~ (mostly)
-* Edits that range across long distances
-* Edits to certain tags
-* ~~Edits by watched users~~
-* ~~Edits to watched objects~~
-* Edits with certain keywords
-* Edits in a certain area
-* Objects that have a very similar structure of a list of objects commonly drawn for vandalism (you know what we're talking about)
-* Notification of edits matching the above criteria
-* Other ideas
-
+This module is a monitoring tool for use with OpenStreetMap. With OSM Hall Monitor, you can track edits made by specified users, made to specified objects, or made with certain tags. You can also enable notifications to receive emails when any of the flagged people or items are edited. Basic functionality for suspicious changeset monitoring is also included.
 
 Requirements
 ------------

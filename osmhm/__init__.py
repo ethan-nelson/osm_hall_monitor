@@ -6,7 +6,7 @@ import config
 import send_notification
 
 
-def run(time_type='hour', history=True, suspicious=True, monitor=True,
+def run(time_type='hour', history=True, suspicious=False, monitor=True,
         notification=False):
     """
     """
