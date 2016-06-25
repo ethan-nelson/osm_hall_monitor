@@ -112,6 +112,36 @@ def history_all_changesets(action):
     conn.commit()
 
 
+def history_users_objects(action):
+    conn = connect.connect()
+    cur = conn.cursor()
+    if action in ['create', 'c']:
+        cur.execute("""
+            CREATE TABLE history_users_objects (
+              id SERIAL NOT NULL PRIMARY KEY,
+              key TEXT NOT NULL,
+              value TEXT NOT NULL,
+              username TEXT NOT NULL,
+              changeset BIGINT NOT NULL,
+              timestamp TEXT NOT NULL,
+              action TEXT
+            );
+            """)
+    elif action in ['truncate', 't']:
+        cur.execute("""
+            TRUNCATE TABLE history_users_objects;
+            """)
+    elif action in ['drop', 'delete', 'd']:
+        cur.execute("""
+            DROP TABLE history_users_objects;
+            """)
+    else:
+        raise NotImplementedError(error_message)
+    conn.commit()
+
+
+
+
 def history_objects(action):
     conn = connect.connect()
     cur = conn.cursor()
@@ -218,6 +248,34 @@ def watched_users(action):
     else:
         raise NotImplementedError(error_message)
     conn.commit()
+
+
+def watched_users_objects(action):
+    conn = connect.connect()
+    cur = conn.cursor()
+    if action in ['create', 'c']:
+        cur.execute("""
+            CREATE TABLE watched_users_objects (
+              id SERIAL NOT NULL PRIMARY KEY,
+              username TEXT NOT NULL,
+              reason TEXT,
+              author TEXT,
+              email TEXT
+            );
+            """)
+    elif action in ['truncate', 't']:
+        cur.execute("""
+            TRUNCATE TABLE watched_users_objects;
+            """)
+    elif action in ['drop', 'delete', 'd']:
+        cur.execute("""
+            DROP TABLE watched_users_objects;
+            """)
+    else:
+        raise NotImplementedError(error_message)
+    conn.commit()
+
+
 
 
 def watched_objects(action):

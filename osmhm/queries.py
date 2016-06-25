@@ -22,6 +22,16 @@ def query_user_list():
     return watched_users
 
 
+def query_user_object_list():
+    conn = connect.connect()
+    cur = conn.cursor()
+
+    cur.execute("SELECT * FROM watched_users_objects")
+    watched_users = cur.fetchall()
+
+    return watched_users
+
+
 def query_object_list():
     conn = connect.connect()
     cur = conn.cursor()

@@ -42,6 +42,7 @@ def run(time_type='hour', history=True, suspicious=False, monitor=True,
             if monitor:
                 osmhm.filters.objectFilter(objects, notification=notification)
                 osmhm.filters.userFilter(changesets, notification=notification)
+                osmhm.filters.user_object_filter(objects, notification=notification)
                 osmhm.filters.keyFilter(objects, notification=notification)
 
             osmhm.inserts.insert_file_read()
@@ -52,7 +53,7 @@ def run(time_type='hour', history=True, suspicious=False, monitor=True,
             extra_time = 10
         elif sequence['timetype'] == 'hour':
             delta_time = 60
-            extra_time = 60
+            extra_time = 62
         elif sequence['timetype'] == 'day':
             delta_time = 1440
             extra_time = 300

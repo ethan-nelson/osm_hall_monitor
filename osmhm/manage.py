@@ -28,6 +28,29 @@ def remove_watched_user(username):
     conn.commit()
 
 
+def add_watched_user_object(username, reason, author, email):
+    """
+    """
+    conn = connect.connect()
+    cur = conn.cursor()
+
+    info = (username, reason, author, email)
+
+    cur.execute("""INSERT INTO watched_users_objects
+                   (username, reason, author, email)
+                   VALUES (%s, %s, %s, %s);""", info)
+
+
+def remove_watched_user_object(username):
+    """
+    """
+    conn = connect.connect()
+    cur = conn.cursor()
+
+    cur.execute("""DELETE FROM watched_users_objects WHERE
+                   username = %s;""", username)
+
+
 def add_watched_object(element, note, author, email):
     """
     """

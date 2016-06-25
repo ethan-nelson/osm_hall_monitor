@@ -95,6 +95,34 @@ def userFilter(changesets, notification=False):
         send_notification.send_notification(notify_list, 'user')    
 
 
+def user_object_filter(objects, notification=False):
+    notify_list = []
+
+    watched_users = queries.query_user_object_list()
+
+    conn = connect.connect()
+    cur = conn.cursor()
+
+    if watched_users:
+        for user in watched_users:
+            for item_id, item in objects.iteritems():
+                if fnmatch.fnmatch(item['username'].encode('utf-8'), user['username']):
+                    if item['create'] == 1:
+                        action = 'create'
+                    elif item['modify'] == 1:
+                        action = 'modify'
+                    elif item['delete'] == 1:
+                        action = 'delete'
+                    for item_key in item['tags']:
+                        info = (item['timestamp'], item['changeset'],
+                        item['username'].encode('utf8'), action,
+                        item_key, item['tags'][item_key])
+                        cur.execute("""INSERT INTO history_users_objects
+                                    (timestamp,changeset,username,action,key,value)
+                                    VALUES (%s, %s, %s, %s, %s, %s);""", info)
+        conn.commit()
+
+
 def objectFilter(objects, notification=False):
     notify_list = []
 
