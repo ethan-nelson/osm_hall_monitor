@@ -1,4 +1,5 @@
 import connect
+import inserts
 import send_notification
 import queries
 import fnmatch
@@ -80,17 +81,10 @@ def user_filter(changesets, notification=False):
         for changesetid, changeset in changesets.iteritems():
             for user in watched_users:
                 if fnmatch.fnmatch(changeset['username'].encode('utf-8'), user['username']):
-                    info = (changeset['timestamp'], changesetid,
-                            changeset['username'].encode('utf8'),
-                            changeset['create'], changeset['modify'],
-                            changeset['delete'])
-                    cur.execute("""INSERT INTO history_users
-                                    (timestamp,changeset,username,created,modified,deleted)
-                                    VALUES (%s, %s, %s, %s, %s, %s);""", info)
+                    inserts.insert_user_event(changeset, user['id'])
 
-                    notify_list.append([info] + user)
+#                    notify_list.append([info] + user)
 
-        conn.commit()
     if notify_list and notification:
         send_notification.send_notification(notify_list, 'user')    
 
@@ -136,19 +130,15 @@ def object_filter(objects, notification=False):
             for item_id, item in objects.iteritems():
                 if item_id == obj['element']:
 					if item['create'] == 1:
-						action = 'create'
+						item['action'] = 1
 					elif item['modify'] == 1:
-						action = 'modify'
+						item['action'] = 2
 					elif item['delete'] == 1:
-						action = 'delete'
-					info = (item['timestamp'], item['changeset'],
-					    item['username'].encode('utf8'), action, item_id)
-					cur.execute("""INSERT INTO history_objects
-                                    (timestamp,changeset,username,action,element)
-                                    VALUES (%s, %s, %s, %s, %s);""", info)
-					notify_list.append([info] + obj)
+						item['action'] = 4
+                                        inserts.insert_object_event(item, obj['id'])
 
-        conn.commit()
+#					notify_list.append([info] + obj)
+
     if notify_list and notification:
         send_notification.send_notification(notify_list, 'object')
 
@@ -167,19 +157,14 @@ def key_filter(objects, notification=False):
                 for item_key in item['tags']:
                     if fnmatch.fnmatch(item_key,key['key']) and fnmatch.fnmatch(item['tags'][item_key],key['value']):
                         if item['create'] == 1:
-                            action = 'create'
+                            item['action'] = 1
                         elif item['modify'] == 1:
-                            action = 'modify'
+                            item['action'] = 2
                         elif item['delete'] == 1:
-                            action = 'delete'
-                        info = (item['timestamp'], item['changeset'],
-                        item['username'].encode('utf8'), action,
-                        item_key, item['tags'][item_key])
-                        cur.execute("""INSERT INTO history_keys
-                                    (timestamp,changeset,username,action,key,value)
-                                    VALUES (%s, %s, %s, %s, %s, %s);""", info)
-                        notify_list.append([info])
+                            item['action'] = 4
+                        inserts.insert_key_event(item, item_key, key['id'])
 
-        conn.commit()
+#                        notify_list.append([info])
+
     if notify_list and notification:
         send_notification.send_notification(notify_list, 'key')

@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='osm_hall_monitor',
-      version='0.41',
+      version='0.42',
       description='Passive changeset monitoring for OpenStreetMap.',
       url='http://github.com/ethan-nelson/osm_hall_monitor',
       author='Ethan Nelson',

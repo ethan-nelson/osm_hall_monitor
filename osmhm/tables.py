@@ -35,7 +35,7 @@ def history_users(action):
         cur.execute("""
             CREATE TABLE history_users (
               id SERIAL NOT NULL PRIMARY KEY,
-              username TEXT NOT NULL,
+              wid INTEGER NOT NULL,
               changeset BIGINT NOT NULL,
               timestamp TEXT NOT NULL,
               created BIGINT,
@@ -140,8 +140,6 @@ def history_users_objects(action):
     conn.commit()
 
 
-
-
 def history_objects(action):
     conn = connect.connect()
     cur = conn.cursor()
@@ -149,11 +147,11 @@ def history_objects(action):
         cur.execute("""
             CREATE TABLE history_objects (
               id SERIAL NOT NULL PRIMARY KEY,
-              element TEXT NOT NULL,
+              wid INTEGER NOT NULL,
               username TEXT NOT NULL,
               changeset BIGINT NOT NULL,
               timestamp TEXT NOT NULL,
-              action TEXT
+              action SMALLINT NOT NULL
             );
             """)
     elif action in ['truncate', 't']:
@@ -176,12 +174,14 @@ def history_keys(action):
         cur.execute("""
             CREATE TABLE history_keys (
               id SERIAL NOT NULL PRIMARY KEY,
+              wid INTEGER NOT NULL,
               key TEXT NOT NULL,
               value TEXT NOT NULL,
+              element TEXT NOT NULL,
               username TEXT NOT NULL,
               changeset BIGINT NOT NULL,
               timestamp TEXT NOT NULL,
-              action TEXT
+              action INTEGER NOT NULL
             );
             """)
     elif action in ['truncate', 't']:
@@ -383,12 +383,14 @@ def all_tables(action):
         file_list(action)
 
     history_users(action)
+    history_users_objects(action)
     history_all_users(action)
     history_all_changesets(action)
     history_objects(action)
     history_keys(action)
     history_filters(action)
     watched_users(action)
+    watched_users_objects(action)
     watched_objects(action)
     watched_keys(action)
     whitelisted_users(action)
