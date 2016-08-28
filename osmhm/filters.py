@@ -4,7 +4,7 @@ import queries
 import fnmatch
 
 
-def suspiciousFilter(changesets):
+def suspicious_filter(changesets):
     """Set of rudimentary filters towards detecting possibly bad changesets.    
 
     1: Large amount of additions
@@ -68,7 +68,7 @@ def suspiciousFilter(changesets):
     conn.commit()
 
 
-def userFilter(changesets, notification=False):
+def user_filter(changesets, notification=False):
     notify_list = []
 
     watched_users = queries.query_user_list()
@@ -123,7 +123,7 @@ def user_object_filter(objects, notification=False):
         conn.commit()
 
 
-def objectFilter(objects, notification=False):
+def object_filter(objects, notification=False):
     notify_list = []
 
     watched_objects = queries.query_object_list()
@@ -153,7 +153,7 @@ def objectFilter(objects, notification=False):
         send_notification.send_notification(notify_list, 'object')
 
 
-def keyFilter(objects, notification=False):
+def key_filter(objects, notification=False):
     notify_list = []
 
     watched_keys = queries.query_key_list()

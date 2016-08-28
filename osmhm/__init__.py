@@ -37,13 +37,13 @@ def run(time_type='hour', history=True, suspicious=False, monitor=True,
                 osmhm.inserts.insert_all_changesets(changesets)
 
             if suspicious:
-                osmhm.filters.suspiciousFilter(changesets)
+                osmhm.filters.suspicious_filter(changesets)
 
             if monitor:
-                osmhm.filters.objectFilter(objects, notification=notification)
-                osmhm.filters.userFilter(changesets, notification=notification)
+                osmhm.filters.object_filter(objects, notification=notification)
+                osmhm.filters.user_filter(changesets, notification=notification)
                 osmhm.filters.user_object_filter(objects, notification=notification)
-                osmhm.filters.keyFilter(objects, notification=notification)
+                osmhm.filters.key_filter(objects, notification=notification)
 
             osmhm.inserts.insert_file_read()
             print "Finished processing %s." % (sequence['sequencenumber'])
