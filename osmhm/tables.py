@@ -36,6 +36,7 @@ def history_users(action):
             CREATE TABLE history_users (
               id SERIAL NOT NULL PRIMARY KEY,
               wid INTEGER NOT NULL,
+              userid BIGINT NOT NULL,
               changeset BIGINT NOT NULL,
               timestamp TEXT NOT NULL,
               created BIGINT,
@@ -148,6 +149,7 @@ def history_objects(action):
             CREATE TABLE history_objects (
               id SERIAL NOT NULL PRIMARY KEY,
               wid INTEGER NOT NULL,
+              userid BIGINT NOT NULL,
               username TEXT NOT NULL,
               changeset BIGINT NOT NULL,
               timestamp TEXT NOT NULL,
@@ -175,6 +177,7 @@ def history_keys(action):
             CREATE TABLE history_keys (
               id SERIAL NOT NULL PRIMARY KEY,
               wid INTEGER NOT NULL,
+              userid BIGINT NOT NULL,
               key TEXT NOT NULL,
               value TEXT NOT NULL,
               element TEXT NOT NULL,
