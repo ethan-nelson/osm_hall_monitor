@@ -184,7 +184,7 @@ def history_keys(action):
               username TEXT NOT NULL,
               changeset BIGINT NOT NULL,
               timestamp TEXT NOT NULL,
-              action INTEGER NOT NULL
+              action SMALLINT NOT NULL
             );
             """)
     elif action in ['truncate', 't']:
@@ -234,6 +234,7 @@ def watched_users(action):
         cur.execute("""
             CREATE TABLE watched_users (
               id SERIAL NOT NULL PRIMARY KEY,
+              userid BIGINT,
               username TEXT NOT NULL,
               reason TEXT,
               author TEXT,
