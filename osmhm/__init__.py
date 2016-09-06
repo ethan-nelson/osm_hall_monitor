@@ -6,7 +6,7 @@ import config
 import send_notification
 
 
-def run(time_type='hour', history=True, suspicious=False, monitor=True,
+def run(time_type='hour', history=False, suspicious=False, monitor=True,
         notification=False):
     """
     """
@@ -65,7 +65,7 @@ def run(time_type='hour', history=True, suspicious=False, monitor=True,
             sleep_time = (next_time - datetime.datetime.utcnow()).seconds + delta_time
             print "Waiting %2.1f seconds for the next file." % (sleep_time)
         else:
-            sleep_time = 0
+            sleep_time = 1
 
         time.sleep(sleep_time)
 
