@@ -282,8 +282,6 @@ def watched_users_objects(action):
     conn.commit()
 
 
-
-
 def watched_objects(action):
     conn = connect.connect()
     cur = conn.cursor()

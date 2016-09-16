@@ -1,8 +1,29 @@
+"""
+manage.py
+
+Functions that add or remove entries on tracking lists.
+
+"""
 import connect
 
 
 def add_watched_user(username, reason, author, authorid, email):
     """
+    Add user to watched user list for tracking.
+
+    Inputs
+    ------
+    username : str
+        Username to track
+    reason : str
+        Reason to track user
+    author : str
+        User adding tracking entry
+    authorid : int
+        Userid of user adding entry
+    email : str, option
+        Email address for notification of events
+    
     """
     conn = connect.connect()
     cur = conn.cursor()
@@ -18,6 +39,12 @@ def add_watched_user(username, reason, author, authorid, email):
 
 def remove_watched_user(username):
     """
+    Remove user from tracking list.
+
+    Inputs
+    ------
+    username : str
+        Username to remove from database
     """
     conn = connect.connect()
     cur = conn.cursor()
@@ -30,6 +57,21 @@ def remove_watched_user(username):
 
 def add_watched_user_object(username, reason, author, authorid, email):
     """
+    Add user to watched user list with object composites for tracking.
+
+    Inputs
+    ------
+     username : str
+        Username to track
+    reason : str
+        Reason to track user
+    author : str
+        User adding tracking entry
+    authorid : int
+        Userid of user adding entry
+    email : str, option
+        Email address for notification of events
+    
     """
     conn = connect.connect()
     cur = conn.cursor()
@@ -43,6 +85,7 @@ def add_watched_user_object(username, reason, author, authorid, email):
 
 def remove_watched_user_object(username):
     """
+    Remove user from object composite user tracking list.
     """
     conn = connect.connect()
     cur = conn.cursor()
@@ -51,13 +94,29 @@ def remove_watched_user_object(username):
                    username = %s;""", username)
 
 
-def add_watched_object(element, note, author, authorid, email):
+def add_watched_object(element, reason, author, authorid, email):
     """
+    Add object to watched object list.
+
+    Inputs
+    ------
+    element : str
+        Object to track, with type specified as single letter
+          prepended to object id (e.g. node 322 is 'n322')
+    reason : str
+        Reason to track user
+    author : str
+        User adding tracking entry
+    authorid : int
+        Userid of user adding entry
+    email : str, option
+        Email address for notification of events
+ 
     """
     conn = connect.connect()
     cur = conn.cursor()
 
-    info = (element, note, author, authorid, email)
+    info = (element, reason, author, authorid, email)
 
     cur.execute("""INSERT INTO watched_objects
                    (element, reason, author, authorid, email)
@@ -69,6 +128,7 @@ def add_watched_object(element, note, author, authorid, email):
 
 def remove_watched_object(element):
     """
+    Remove object from object tracking list.
     """
     conn = connect.connect()
     cur = conn.cursor()
@@ -79,13 +139,30 @@ def remove_watched_object(element):
     conn.commit()
 
 
-def add_watched_key(key, value, note, author, authorid, email):
+def add_watched_key(key, value, reason, author, authorid, email):
     """
+    Add key/value combination to key/value tracking list.
+
+    Inputs
+    ------
+    key : str
+        Key to track; can be wildcard
+    value : str
+        Key value to track; can be wildcard
+    reason : str
+        Reason to track user
+    author : str
+        User adding tracking entry
+    authorid : int
+        Userid of user adding entry
+    email : str, option
+        Email address for notification of events
+ 
     """
     conn = connect.connect()
     cur = conn.cursor()
 
-    info = (key, value, note, author, authorid, email)
+    info = (key, value, reason, author, authorid, email)
 
     cur.execute("""INSERT INTO watched_keys
                    (key, value, reason, author, authorid, email)
@@ -96,6 +173,8 @@ def add_watched_key(key, value, note, author, authorid, email):
 
 def remove_watched_key(key, value):
     """
+    Remove key/value combination from key/value tracking list.
+
     """
     conn = connect.connect()
     cur = conn.cursor()
@@ -108,6 +187,19 @@ def remove_watched_key(key, value):
 
 def add_whitelisted_user(username, reason, author, authorid):
     """
+    Add whitelisted user that is not picked up in tracking.
+
+    Inputs
+    ------
+    username : str
+        Username to track
+    reason : str
+        Reason to track user
+    author : str
+        User adding tracking entry
+    authorid : int
+        Userid of user adding entry
+ 
     """
     conn = connect.connect()
     cur = conn.cursor()
@@ -123,6 +215,8 @@ def add_whitelisted_user(username, reason, author, authorid):
 
 def remove_whitelisted_user(username):
     """
+    Remove whitelisted user from untracked list.
+
     """
     conn = connect.connect()
     cur = conn.cursor()

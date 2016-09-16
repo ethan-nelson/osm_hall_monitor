@@ -1,7 +1,17 @@
+"""
+queries.py
+
+Retrieves lists of entries on tracking lists and do-not-track lists.
+
+"""
 import connect
 
 
 def query_white_list():
+    """
+    Retrieve list of users on whitelist.
+
+    """
     conn = connect.connect()
     cur = conn.cursor()
 
@@ -13,6 +23,10 @@ def query_white_list():
 
 
 def query_user_list():
+    """
+    Retrieve list of users on user watch list.
+
+    """
     conn = connect.connect()
     cur = conn.cursor()
 
@@ -23,6 +37,10 @@ def query_user_list():
 
 
 def query_user_object_list():
+    """
+    Retrieve list of users on object composite watch list.
+
+    """
     conn = connect.connect()
     cur = conn.cursor()
 
@@ -33,6 +51,10 @@ def query_user_object_list():
 
 
 def query_object_list():
+    """
+    Retrieve list of objects on object watch list.
+
+    """
     conn = connect.connect()
     cur = conn.cursor()
 
@@ -43,6 +65,10 @@ def query_object_list():
 
 
 def query_key_list():
+    """
+    Retrieve list of key/value pairs on key/value pair list.
+
+    """
     conn = connect.connect()
     cur = conn.cursor()
 
@@ -50,7 +76,3 @@ def query_key_list():
     watched_keys = cur.fetchall()
 
     return watched_keys
-
-
-def query_block_list():
-    pass
