@@ -238,6 +238,7 @@ def watched_users(action):
               username TEXT NOT NULL,
               reason TEXT,
               author TEXT,
+              authorid BIGINT,
               email TEXT
             );
             """)
@@ -264,6 +265,7 @@ def watched_users_objects(action):
               username TEXT NOT NULL,
               reason TEXT,
               author TEXT,
+              authorid BIGINT,
               email TEXT
             );
             """)
@@ -292,6 +294,7 @@ def watched_objects(action):
               element TEXT NOT NULL,
               reason TEXT,
               author TEXT,
+              authorid BIGINT,
               email TEXT
             );
             """)
@@ -319,6 +322,7 @@ def watched_keys(action):
               value TEXT NOT NULL,
               reason TEXT,
               author TEXT,
+              authorid BIGINT,
               email TEXT
             );
             """)
@@ -344,7 +348,8 @@ def whitelisted_users(action):
               id SERIAL NOT NULL PRIMARY KEY,
               username TEXT NOT NULL,
               reason TEXT,
-              author TEXT
+              author TEXT,
+              authorid BIGINT,
             );
             """)
     elif action in ['truncate', 't']:
