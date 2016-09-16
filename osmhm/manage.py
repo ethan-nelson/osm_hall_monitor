@@ -1,17 +1,17 @@
 import connect
 
 
-def add_watched_user(username, reason, author, email):
+def add_watched_user(username, reason, author, authorid, email):
     """
     """
     conn = connect.connect()
     cur = conn.cursor()
 
-    info = (username, reason, author, email)
+    info = (username, reason, author, authorid, email)
 
     cur.execute("""INSERT INTO watched_users
-                   (username, reason, author, email)
-                   VALUES (%s, %s, %s, %s);""", info)
+                   (username, reason, author, authorid, email)
+                   VALUES (%s, %s, %s, %s, %s);""", info)
 
     conn.commit()
 
@@ -28,17 +28,17 @@ def remove_watched_user(username):
     conn.commit()
 
 
-def add_watched_user_object(username, reason, author, email):
+def add_watched_user_object(username, reason, author, authorid, email):
     """
     """
     conn = connect.connect()
     cur = conn.cursor()
 
-    info = (username, reason, author, email)
+    info = (username, reason, author, authorid, email)
 
     cur.execute("""INSERT INTO watched_users_objects
-                   (username, reason, author, email)
-                   VALUES (%s, %s, %s, %s);""", info)
+                   (username, reason, author, authorid, email)
+                   VALUES (%s, %s, %s, %s, %s);""", info)
 
 
 def remove_watched_user_object(username):
@@ -51,17 +51,17 @@ def remove_watched_user_object(username):
                    username = %s;""", username)
 
 
-def add_watched_object(element, note, author, email):
+def add_watched_object(element, note, author, authorid, email):
     """
     """
     conn = connect.connect()
     cur = conn.cursor()
 
-    info = (element, note, author, email)
+    info = (element, note, author, authorid, email)
 
     cur.execute("""INSERT INTO watched_objects
-                   (element, reason, author, email)
-                   VALUES (%s, %s, %s, %s);""", info)
+                   (element, reason, author, authorid, email)
+                   VALUES (%s, %s, %s, %s, %s);""", info)
 
 
     conn.commit()
@@ -79,17 +79,17 @@ def remove_watched_object(element):
     conn.commit()
 
 
-def add_watched_key(key, value, note, author, email):
+def add_watched_key(key, value, note, author, authorid, email):
     """
     """
     conn = connect.connect()
     cur = conn.cursor()
 
-    info = (key, value, note, author, email)
+    info = (key, value, note, author, authorid, email)
 
     cur.execute("""INSERT INTO watched_keys
-                   (key, value, reason, author, email)
-                   VALUES (%s, %s, %s, %s, %s);""", info)
+                   (key, value, reason, author, authorid, email)
+                   VALUES (%s, %s, %s, %s, %s, %s);""", info)
 
     conn.commit()
 
@@ -106,17 +106,17 @@ def remove_watched_key(key, value):
     conn.commit()
 
 
-def add_whitelisted_user(username, reason, author):
+def add_whitelisted_user(username, reason, author, authorid):
     """
     """
     conn = connect.connect()
     cur = conn.cursor()
 
-    info = (username, reason, author)
+    info = (username, reason, author, authorid)
 
     cur.execute("""INSERT INTO whitelisted_users
-                   (username, reason, author)
-                   VALUES (%s, %s, %s);""", info)
+                   (username, reason, author, authorid)
+                   VALUES (%s, %s, %s, %s);""", info)
 
     conn.commit()
 
