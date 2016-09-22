@@ -54,7 +54,7 @@ def run(time_type='hour', history=False, suspicious=False, monitor=True,
             if monitor:
                 osmhm.filters.object_filter(objects, notification=notification, notifier=notifier)
                 osmhm.filters.user_filter(changesets, notification=notification, notifier=notifier)
-                osmhm.filters.user_object_filter(objects, notification=notification, notifier=notifier)
+                #osmhm.filters.user_object_filter(objects, notification=notification, notifier=notifier)  # not implemented yet
                 osmhm.filters.key_filter(objects, notification=notification, notifier=notifier)
 
             osmhm.inserts.insert_file_read()
