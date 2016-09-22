@@ -347,7 +347,7 @@ def whitelisted_users(action):
               username TEXT NOT NULL,
               reason TEXT,
               author TEXT,
-              authorid BIGINT,
+              authorid BIGINT
             );
             """)
     elif action in ['truncate', 't']:
