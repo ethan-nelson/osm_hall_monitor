@@ -69,7 +69,7 @@ def suspicious_filter(changesets):
     conn.commit()
 
 
-def user_filter(changesets, notification=False):
+def user_filter(changesets, notification=False, notifier=send_notification.send_mail):
     notify_list = []
 
     watched_users = queries.query_user_list()
@@ -83,13 +83,13 @@ def user_filter(changesets, notification=False):
                 if fnmatch.fnmatch(changeset['username'].encode('utf-8'), user['username']):
                     inserts.insert_user_event(changeset, user['id'])
 
-#                    notify_list.append([info] + user)
-
+                    notify_list.append([(changeset['timestamp'], changesetid, changeset['username'].encode('utf8'),
+                                         changeset['create'], changeset['modify'], changeset['delete'])] + user)
     if notify_list and notification:
-        send_notification.send_notification(notify_list, 'user')    
+        send_notification.send_notification(notify_list, 'user', notifier=notifier)
 
 
-def user_object_filter(objects, notification=False):
+def user_object_filter(objects, notification=False, notifier=send_notification.send_mail):
     notify_list = []
 
     watched_users = queries.query_user_object_list()
@@ -117,7 +117,7 @@ def user_object_filter(objects, notification=False):
         conn.commit()
 
 
-def object_filter(objects, notification=False):
+def object_filter(objects, notification=False, notifier=send_notification.send_mail):
     notify_list = []
 
     watched_objects = queries.query_object_list()
@@ -137,13 +137,13 @@ def object_filter(objects, notification=False):
 						item['action'] = 4
                                         inserts.insert_object_event(item, obj['id'])
 
-#					notify_list.append([info] + obj)
-
+					notify_list.append([(item['timestamp'], item['changeset'], item['username'].encode('utf8'),
+                                                             item['action'], item_id)] + obj)
     if notify_list and notification:
-        send_notification.send_notification(notify_list, 'object')
+        send_notification.send_notification(notify_list, 'object', notifier=notifier)
 
 
-def key_filter(objects, notification=False):
+def key_filter(objects, notification=False, notifier=send_notification.send_mail):
     notify_list = []
 
     watched_keys = queries.query_key_list()
@@ -164,7 +164,7 @@ def key_filter(objects, notification=False):
                             item['action'] = 4
                         inserts.insert_key_event(item, item_key, key['id'])
 
-#                        notify_list.append([info])
-
+                        notify_list.append([(item['timestamp'], item['changeset'], item['username'].encode('utf8'),
+                                             item['action'], item_key, item['tags'][item_key])])
     if notify_list and notification:
-        send_notification.send_notification(notify_list, 'key')
+        send_notification.send_notification(notify_list, 'key', notifier=notifier)

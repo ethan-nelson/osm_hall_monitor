@@ -7,7 +7,7 @@ import send_notification
 
 
 def run(time_type='hour', history=False, suspicious=False, monitor=True,
-        notification=False):
+        notification=False, notifier=send_notification.send_mail):
     """
     """
     import osmhm
@@ -26,7 +26,19 @@ def run(time_type='hour', history=False, suspicious=False, monitor=True,
         if sequence['read_flag'] is False:
             print "Processing sequence %s." % (sequence['sequencenumber'])
 
-            data_stream = osmdt.fetch(sequence['sequencenumber'], time=time_type)
+            count = 0
+            while True:
+                try:
+                    count += 1
+                    data_stream = osmdt.fetch(sequence['sequencenumber'], time=time_type)
+                    break
+                except:
+                    if count == 5:
+                        msg = 'Current state file not retrievable after five times.'
+                        raise Exception(msg)
+                    print "File not reachable; waiting 60 more seconds..."
+                    time.sleep(60)
+
             data_object = osmdt.process(data_stream)
 
             changesets = osmdt.extract_changesets(data_object)
@@ -40,10 +52,10 @@ def run(time_type='hour', history=False, suspicious=False, monitor=True,
                 osmhm.filters.suspicious_filter(changesets)
 
             if monitor:
-                osmhm.filters.object_filter(objects, notification=notification)
-                osmhm.filters.user_filter(changesets, notification=notification)
-                osmhm.filters.user_object_filter(objects, notification=notification)
-                osmhm.filters.key_filter(objects, notification=notification)
+                osmhm.filters.object_filter(objects, notification=notification, notifier=notifier)
+                osmhm.filters.user_filter(changesets, notification=notification, notifier=notifier)
+                osmhm.filters.user_object_filter(objects, notification=notification, notifier=notifier)
+                osmhm.filters.key_filter(objects, notification=notification, notifier=notifier)
 
             osmhm.inserts.insert_file_read()
             print "Finished processing %s." % (sequence['sequencenumber'])
@@ -53,7 +65,7 @@ def run(time_type='hour', history=False, suspicious=False, monitor=True,
             extra_time = 10
         elif sequence['timetype'] == 'hour':
             delta_time = 60
-            extra_time = 62
+            extra_time = 120
         elif sequence['timetype'] == 'day':
             delta_time = 1440
             extra_time = 300
