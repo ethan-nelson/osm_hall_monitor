@@ -90,6 +90,6 @@ OSM Hall Monitor
     for email in messages:
         try:
             notifier(tos[email], subjects[email], messages[email])
-        except:
-            print 'Issue sending notification'
+        except Exception,e:
+            print 'Issue sending notification: ', str(e)
             pass
