@@ -40,10 +40,12 @@ def run(time_type='hour', history=False, suspicious=False, monitor=True,
                     time.sleep(60)
 
             data_object = osmdt.process(data_stream)
+            del data_stream
 
             changesets = osmdt.extract_changesets(data_object)
             objects = osmdt.extract_objects(data_object)
             users = osmdt.extract_users(data_object)
+            del data_object
 
             if history:
                 osmhm.inserts.insert_all_changesets(changesets)
@@ -56,6 +58,8 @@ def run(time_type='hour', history=False, suspicious=False, monitor=True,
                 osmhm.filters.user_filter(changesets, notification=notification, notifier=notifier)
                 #osmhm.filters.user_object_filter(objects, notification=notification, notifier=notifier)  # not implemented yet
                 osmhm.filters.key_filter(objects, notification=notification, notifier=notifier)
+
+            del changesets, objects, users
 
             osmhm.inserts.insert_file_read()
             print "Finished processing %s." % (sequence['sequencenumber'])
