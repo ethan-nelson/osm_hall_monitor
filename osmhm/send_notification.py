@@ -2,6 +2,7 @@ import smtplib
 import config
 
 def send_mail(to, subject, msg):
+    import os
     program = '/usr/sbin/sendmail'
     email = os.popen("%s -t" % program, "w")
     email.write("From: %s\n" % config.email_user)
