@@ -21,8 +21,8 @@ def send_notification(notify_list, notification_type, notifier=send_mail):
     tos = {}
 
     for entry in notify_list:
-        if notification_type == 'user':
-            if entry[6]:
+        if entry[6]:
+            if notification_type == 'user':
                 MSG = """
 Dear %s,
 OSM Hall Monitor has detected an event for your consideration.
@@ -46,8 +46,7 @@ OSM Hall Monitor
                 TO = entry[6]
                 NEWSUBJECT = '%s User %s ' % (SUBJECT, entry[0][2])
 
-        elif notification_type == 'object':
-            if entry[6]:
+            elif notification_type == 'object':
                 if 'n' == entry[0][4][0]:
                     pre = 'node'
                 elif 'w' == entry[0][4][0]:
@@ -75,7 +74,9 @@ OSM Hall Monitor
 
                 TO = entry[6]
                 NEWSUBJECT = '%s Object %s ' % (SUBJECT, entry[0][4])
-
+            else:
+                print 'Notification type unknown'
+                continue
         else:
             continue
 
