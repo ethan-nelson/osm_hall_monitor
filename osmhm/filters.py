@@ -82,9 +82,10 @@ def user_filter(changesets, notification=False, notifier=send_notification.send_
             for user in watched_users:
                 if fnmatch.fnmatch(changeset['username'].encode('utf-8'), user['username']):
                     inserts.insert_user_event(changeset, user['id'])
-
-                    notify_list.append([(changeset['timestamp'], changesetid, changeset['username'].encode('utf8'),
-                                         changeset['create'], changeset['modify'], changeset['delete'])] + user)
+                    notify_list.append({'timestamp': changeset['timestamp'], 'changesetid': changesetid,
+                                        'username': changeset['username'].encode('utf8'), 'create': changeset['create'],
+                                        'modify': changeset['modify'], 'delete': changeset['delete'], 'author': user['author'],
+                                        'address': user['email'], 'reason': user['reason']})
     if notify_list and notification:
         send_notification.send_notification(notify_list, 'user', notifier=notifier)
 
@@ -136,9 +137,10 @@ def object_filter(objects, notification=False, notifier=send_notification.send_m
 					elif item['delete'] == 1:
 						item['action'] = 4
                                         inserts.insert_object_event(item, obj['id'])
-
-					notify_list.append([(item['timestamp'], item['changeset'], item['username'].encode('utf8'),
-                                                             item['action'], item_id)] + obj)
+                                        notify_list.append({'timestamp': item['timestamp'], 'changesetid': item['changeset'],
+                                                            'username': item['username'].encode('utf8'),
+                                                            'action': item['action'], 'element': item_id,
+                                                            'author': obj['author'], 'address': obj['email'], 'reason': obj['reason']})
     if notify_list and notification:
         send_notification.send_notification(notify_list, 'object', notifier=notifier)
 
@@ -163,8 +165,8 @@ def key_filter(objects, notification=False, notifier=send_notification.send_mail
                         elif item['delete'] == 1:
                             item['action'] = 4
                         inserts.insert_key_event(item, item_key, key['id'])
-
-                        notify_list.append([(item['timestamp'], item['changeset'], item['username'].encode('utf8'),
-                                             item['action'], item_key, item['tags'][item_key])])
+                        notify_list.append({'timestamp': item['timestamp'], 'changesetid': item['changeset'],
+                                            'username': item['username'].encode('utf8'), 'action': item['action'],
+                                            'key': item_key, 'value': item['tags'][item_key]})
     if notify_list and notification:
         send_notification.send_notification(notify_list, 'key', notifier=notifier)

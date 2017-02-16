@@ -21,7 +21,7 @@ def send_notification(notify_list, notification_type, notifier=send_mail):
     tos = {}
 
     for entry in notify_list:
-        if entry[6]:
+        if entry['address'] is not '':
             if notification_type == 'user':
                 MSG = """
 Dear %s,
@@ -41,18 +41,24 @@ Problem? Feedback? Reply to this message.
 Best,
 
 OSM Hall Monitor
-""" % (entry[4], entry[0][0], entry[0][2], entry[0][1], entry[0][3], entry[0][4], entry[0][5], entry[3])
+""" % (entry['author'], entry['timestamp'], entry['username'], entry['changesetid'], entry['create'], entry['modify'], entry['delete'], entry['reason'])
 
-                TO = entry[6]
-                NEWSUBJECT = '%s User %s ' % (SUBJECT, entry[0][2])
+                TO = entry['address']
+                NEWSUBJECT = '%s User %s ' % (SUBJECT, entry['username'])
 
             elif notification_type == 'object':
-                if 'n' == entry[0][4][0]:
+                if 'n' == entry['element'][0]:
                     pre = 'node'
-                elif 'w' == entry[0][4][0]:
+                elif 'w' == entry['element'][0]:
                     pre = 'way'
-                elif 'r' == entry[0][4][0]:
+                elif 'r' == entry['element'][0]:
                     pre = 'relation'
+                if entry['action'] == 1:
+                    act = 'create'
+                elif entry['action'] == 2:
+                    act = 'modify'
+                elif entry['action'] == 4:
+                    act = 'delete'
                 MSG = """
 Dear %s,
 OSM Hall Monitor has detected an event for your consideration.
@@ -70,10 +76,10 @@ Problem? Feedback? Reply to this message.
 Best,
 
 OSM Hall Monitor
-""" % (entry[4], entry[0][0], pre, entry[0][4][1:], entry[0][1], entry[0][3], entry[0][2], entry[3])
+""" % (entry['author'], entry['timestamp'], pre, entry['element'][1:], entry['changesetid'], act, entry['username'], entry['reason'])
 
-                TO = entry[6]
-                NEWSUBJECT = '%s Object %s ' % (SUBJECT, entry[0][4])
+                TO = entry['address']
+                NEWSUBJECT = '%s Object %s ' % (SUBJECT, entry['element'])
             else:
                 print 'Notification type unknown'
                 continue
