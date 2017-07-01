@@ -167,6 +167,7 @@ def key_filter(objects, notification=False, notifier=send_notification.send_mail
                         inserts.insert_key_event(item, item_key, key['id'])
                         notify_list.append({'timestamp': item['timestamp'], 'changesetid': item['changeset'],
                                             'username': item['username'].encode('utf8'), 'action': item['action'],
-                                            'key': item_key, 'value': item['tags'][item_key]})
+                                            'key': item_key, 'value': item['tags'][item_key],
+                                            'author': item['author'], 'address': item['email'], 'reason': item['reason']})
     if notify_list and notification:
         send_notification.send_notification(notify_list, 'key', notifier=notifier)
