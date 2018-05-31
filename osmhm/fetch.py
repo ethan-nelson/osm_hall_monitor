@@ -56,13 +56,13 @@ def fetch_next(current_sequence='', time_type='hour', reset=False):
 
     """
     if reset is True:
-        state_url = ("http://planet.openstreetmap.org/replication/"
+        state_url = ("https://planet.openstreetmap.org/replication/"
                      "%s/state.txt") % (time_type)
 
     else:
         next_sequence = int(current_sequence) + 1
         sequence_string = str(next_sequence).zfill(9)
-        state_url = ("http://planet.openstreetmap.org/replication/"
+        state_url = ("https://planet.openstreetmap.org/replication/"
                      "%s/%s/%s/%s.state.txt") % (time_type,
                          sequence_string[0:3], sequence_string[3:6],
                          sequence_string[6:9])

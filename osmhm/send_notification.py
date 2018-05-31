@@ -29,8 +29,8 @@ OSM Hall Monitor has detected an event for your consideration.
 
   **User alert**
        Time of event: %s
-       Username: http://www.osm.org/user/%s
-       Changeset: http://www.osm.org/changeset/%s
+       Username: https://www.openstreetmap.org/user/%s
+       Changeset: https://www.openstreetmap.org/changeset/%s
        Additions: %s
        Modifications: %s
        Deletions: %s
@@ -65,10 +65,10 @@ OSM Hall Monitor has detected an event for your consideration.
 
   **Object alert**
        Time of event: %s
-       Object: http://www.osm.org/%s/%s
-       Changeset: http://www.osm.org/changeset/%s
+       Object: https://www.openstreetmap.org/%s/%s
+       Changeset: https://www.openstreetmap.org/changeset/%s
        Action: %s
-       User performing: http://www.osm.org/user/%s
+       User performing: https://www.openstreetmap.org/user/%s
        Reason object is watched: %s
 
 Problem? Feedback? Reply to this message.
