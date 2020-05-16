@@ -8,6 +8,18 @@ jobs:
     strategy:
       matrix:
         python-version: [2.7, 3.5, 3.6, 3.7, 3.8]
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
@@ -20,3 +32,10 @@ jobs:
         pip install -r requirements.txt
     - name: Install package
       run: python setup.py install
+    - name: Initialize database
+      env:
+        PGUSER: postgres
+        PGPASSWORD: postgres
+      run: |
+        psql -h localhost -c 'CREATE DATABASE __test'
+        psql -h localhost __test < scripts/database.sql
