@@ -13,23 +13,24 @@ Also, psycopg2 is necessary at the moment for all the database work. Again, setu
 Installation
 ------------
 
-Method 1 - Release
-==================
+Releases
+========
 
 `$pip install osm_hall_monitor`
 
-Method 2 - Development
-======================
+Bleeding Edge
+=============
+
+### Method 1
 
 * Download the zip.
-* Unpack the zip somewhere.
-* Navigate to somewhere.
+* Unpack the zip to $somewhere.
+* Navigate to $somewhere.
 * `$python setup.py install`
 
-Method 3 - Development
-======================
+### Method 2
 
-`$pip install git+https://github/ethan-nelson/osm_hall_monitor.git`
+`$pip install git+https://github.com/ethan-nelson/osm_hall_monitor.git`
 
 
 Database setup
