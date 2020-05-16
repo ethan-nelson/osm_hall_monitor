@@ -69,7 +69,7 @@ def suspicious_filter(changesets):
     conn.commit()
 
 
-def user_filter(changesets, notification=False, notifier=send_notification.send_mail):
+def user_filter(changesets, notification=False, notifier=send_notification.basic_send_mail):
     notify_list = []
 
     watched_users = queries.query_user_list()
@@ -90,7 +90,7 @@ def user_filter(changesets, notification=False, notifier=send_notification.send_
         send_notification.send_notification(notify_list, 'user', notifier=notifier)
 
 
-def user_object_filter(objects, notification=False, notifier=send_notification.send_mail):
+def user_object_filter(objects, notification=False, notifier=send_notification.basic_send_mail):
     notify_list = []
 
     watched_users = queries.query_user_object_list()
@@ -118,7 +118,7 @@ def user_object_filter(objects, notification=False, notifier=send_notification.s
         conn.commit()
 
 
-def object_filter(objects, notification=False, notifier=send_notification.send_mail):
+def object_filter(objects, notification=False, notifier=send_notification.basic_send_mail):
     notify_list = []
 
     watched_objects = queries.query_object_list()
@@ -145,7 +145,7 @@ def object_filter(objects, notification=False, notifier=send_notification.send_m
         send_notification.send_notification(notify_list, 'object', notifier=notifier)
 
 
-def key_filter(objects, notification=False, notifier=send_notification.send_mail):
+def key_filter(objects, notification=False, notifier=send_notification.basic_send_mail):
     notify_list = []
 
     watched_keys = queries.query_key_list()

@@ -1,7 +1,7 @@
 import smtplib
 import config
 
-def send_mail(to, subject, msg):
+def basic_send_mail(to, subject, msg):
     import os
     program = '/usr/sbin/sendmail'
     email = os.popen("%s -t" % program, "w")
@@ -14,7 +14,7 @@ def send_mail(to, subject, msg):
     status = email.close()
 
 
-def send_notification(notify_list, notification_type, notifier=send_mail):
+def send_notification(notify_list, notification_type, notifier=basic_send_mail):
     SUBJECT = 'OSM Hall Monitor Notification |'
     messages = {}
     subjects = {}
