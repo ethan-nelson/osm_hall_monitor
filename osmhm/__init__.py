@@ -7,7 +7,7 @@ import send_notification
 
 
 def run(time_type='hour', history=False, suspicious=False, monitor=True,
-        notification=False, notifier=send_notification.send_mail):
+        notification=False, notifier=send_notification.basic_send_mail):
     """
     """
     import osmhm
