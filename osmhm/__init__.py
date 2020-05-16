@@ -24,7 +24,7 @@ def run(time_type='hour', history=False, suspicious=False, monitor=True,
             sequence = osmhm.fetch.fetch_last_read()
 
         if sequence['read_flag'] is False:
-            print "Processing sequence %s." % (sequence['sequencenumber'])
+            print("Processing sequence %s." % (sequence['sequencenumber']))
 
             count = 0
             while True:
@@ -36,7 +36,7 @@ def run(time_type='hour', history=False, suspicious=False, monitor=True,
                     if count == 5:
                         msg = 'Current state file not retrievable after five times.'
                         raise Exception(msg)
-                    print "File not reachable; waiting 60 more seconds..."
+                    print("File not reachable; waiting 60 more seconds...")
                     time.sleep(60)
 
             data_object = osmdt.process(data_stream)
@@ -62,7 +62,7 @@ def run(time_type='hour', history=False, suspicious=False, monitor=True,
             del changesets, objects, users
 
             osmhm.inserts.insert_file_read()
-            print "Finished processing %s." % (sequence['sequencenumber'])
+            print("Finished processing %s." % (sequence['sequencenumber']))
 
         if sequence['timetype'] == 'minute':
             delta_time = 1
@@ -79,7 +79,7 @@ def run(time_type='hour', history=False, suspicious=False, monitor=True,
 
         if datetime.datetime.utcnow() < next_time:
             sleep_time = (next_time - datetime.datetime.utcnow()).seconds + delta_time
-            print "Waiting %2.1f seconds for the next file." % (sleep_time)
+            print("Waiting %2.1f seconds for the next file." % (sleep_time))
         else:
             sleep_time = 1
 
@@ -95,5 +95,5 @@ def run(time_type='hour', history=False, suspicious=False, monitor=True,
                 if count == 5:
                     msg = 'New state file not retrievable after five times.'
                     raise Exception(msg)
-                print "Waiting %2.1f more seconds..." % (extra_time)
+                print("Waiting %2.1f more seconds..." % (extra_time))
                 time.sleep(extra_time)

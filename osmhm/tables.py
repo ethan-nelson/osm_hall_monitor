@@ -377,7 +377,7 @@ def all_tables(action):
     response = str(raw_input(message))
 
     if response.lower() not in ['y', 'yes']:
-        print 'Execution halted.'
+        print('Execution halted.')
         return
 
     if action in ['truncate', 't']:
@@ -402,4 +402,4 @@ def all_tables(action):
     watched_keys(action)
     whitelisted_users(action)
 
-    print 'Done.'
+    print('Done.')

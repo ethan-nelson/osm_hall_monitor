@@ -81,7 +81,7 @@ OSM Hall Monitor
                 TO = entry['address']
                 NEWSUBJECT = '%s Object %s ' % (SUBJECT, entry['element'])
             else:
-                print 'Notification type unknown'
+                print('Notification type unknown')
                 continue
         else:
             continue
@@ -99,5 +99,5 @@ OSM Hall Monitor
         try:
             notifier(tos[email], subjects[email], messages[email])
         except Exception,e:
-            print 'Issue sending notification: ', str(e)
+            print('Issue sending notification: ', str(e))
             pass
