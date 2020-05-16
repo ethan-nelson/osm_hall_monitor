@@ -1,5 +1,5 @@
 import smtplib
-import config
+from osmhm import config
 
 def basic_send_mail(to, subject, msg):
     import os
@@ -98,6 +98,6 @@ OSM Hall Monitor
     for email in messages:
         try:
             notifier(tos[email], subjects[email], messages[email])
-        except Exception,e:
+        except Exception as e:
             print('Issue sending notification: ', str(e))
             pass

@@ -5,8 +5,8 @@ Contains functions to fetch diff file information (state files) from
   OpenStreetMap (OSM) planet server.
 
 """
-import config
-from connect import connect
+from osmhm import config
+from osmhm.connect import connect
 import requests
 
 

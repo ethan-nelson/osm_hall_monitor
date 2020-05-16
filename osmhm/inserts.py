@@ -1,4 +1,4 @@
-import connect
+from osmhm import connect
 
 
 def insert_file_read():

@@ -1,7 +1,9 @@
-import connect
-import inserts
-import send_notification
-import queries
+from osmhm import (
+    connect,
+    inserts,
+    send_notification,
+    queries,
+)
 import fnmatch
 
 
@@ -130,17 +132,17 @@ def object_filter(objects, notification=False, notifier=send_notification.basic_
         for obj in watched_objects:
             for item_id, item in objects.iteritems():
                 if item_id == obj['element']:
-					if item['create'] == 1:
-						item['action'] = 1
-					elif item['modify'] == 1:
-						item['action'] = 2
-					elif item['delete'] == 1:
-						item['action'] = 4
-                                        inserts.insert_object_event(item, obj['id'])
-                                        notify_list.append({'timestamp': item['timestamp'], 'changesetid': item['changeset'],
-                                                            'username': item['username'].encode('utf8'),
-                                                            'action': item['action'], 'element': item_id,
-                                                            'author': obj['author'], 'address': obj['email'], 'reason': obj['reason']})
+                    if item['create'] == 1:
+                        item['action'] = 1
+                    elif item['modify'] == 1:
+                        item['action'] = 2
+                    elif item['delete'] == 1:
+                        item['action'] = 4
+                    inserts.insert_object_event(item, obj['id'])
+                    notify_list.append({'timestamp': item['timestamp'], 'changesetid': item['changeset'],
+                                        'username': item['username'].encode('utf8'),
+                                        'action': item['action'], 'element': item_id,
+                                        'author': obj['author'], 'address': obj['email'], 'reason': obj['reason']})
     if notify_list and notification:
         send_notification.send_notification(notify_list, 'object', notifier=notifier)
 

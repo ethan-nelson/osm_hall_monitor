@@ -4,10 +4,13 @@ connect.py
 Provides a connection to the database.
 
 """
-import config
+from osmhm import config
 import psycopg2
 from psycopg2.extras import DictCursor
-import urlparse
+try:
+    import urlparse
+except:
+    import urllib.parse as urlparse
 
 
 def connect():

@@ -4,7 +4,7 @@ queries.py
 Retrieves lists of entries on tracking lists and do-not-track lists.
 
 """
-import connect
+from osmhm import connect
 
 
 def query_white_list():

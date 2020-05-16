@@ -4,7 +4,7 @@ manage.py
 Functions that add or remove entries on tracking lists.
 
 """
-import connect
+from osmhm import connect
 
 
 def add_watched_user(username, reason, author, authorid, email):

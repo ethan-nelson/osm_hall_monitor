@@ -1,9 +1,11 @@
-import fetch
-import filters
-import inserts
-import tables
-import config
-import send_notification
+from osmhm import (
+    fetch,
+    filters,
+    inserts,
+    tables,
+    config,
+    send_notification,
+)
 
 
 def run(time_type='hour', history=False, suspicious=False, monitor=True,

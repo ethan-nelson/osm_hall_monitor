@@ -1,4 +1,4 @@
-import connect
+from osmhm import connect
 
 
 error_message = 'Action is not defined. Please use create, truncate, or drop.'
