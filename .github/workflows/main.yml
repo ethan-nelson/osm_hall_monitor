@@ -39,3 +39,9 @@ jobs:
       run: |
         psql -h localhost -c 'CREATE DATABASE __test'
         psql -h localhost __test < scripts/database.sql
+    - name: Run Tests
+      env:
+        DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/__test"
+      run: |
+        pip install pytest
+        pytest tests

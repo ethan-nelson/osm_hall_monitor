@@ -1,5 +1,5 @@
 CREATE TABLE blocked_users (
-    id integer PRIMARY KEY,
+    id SERIAL NOT NULL PRIMARY KEY,
     blockee text,
     blocker text,
     begindate timestamp with time zone,
@@ -8,7 +8,7 @@ CREATE TABLE blocked_users (
 );
 
 CREATE TABLE file_list (
-    id integer NOT NULL PRIMARY KEY,
+    id SERIAL NOT NULL NOT NULL PRIMARY KEY,
     sequence text,
     "timestamp" text,
     timetype text,
@@ -16,7 +16,7 @@ CREATE TABLE file_list (
 );
 
 CREATE TABLE history_all_changesets (
-    id integer NOT NULL PRIMARY KEY,
+    id SERIAL NOT NULL PRIMARY KEY,
     changeset text NOT NULL,
     username text NOT NULL,
     "timestamp" text NOT NULL,
@@ -26,7 +26,7 @@ CREATE TABLE history_all_changesets (
 );
 
 CREATE TABLE history_all_users (
-    id integer NOT NULL PRIMARY KEY,
+    id SERIAL NOT NULL PRIMARY KEY,
     username text NOT NULL,
     changeset text NOT NULL,
     "timestamp" text NOT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE history_all_users (
 );
 
 CREATE TABLE history_filters (
-    id integer NOT NULL PRIMARY KEY,
+    id SERIAL NOT NULL PRIMARY KEY,
     flag integer NOT NULL,
     username text NOT NULL,
     changeset bigint NOT NULL,
@@ -46,7 +46,7 @@ CREATE TABLE history_filters (
 );
 
 CREATE TABLE history_keys (
-    id integer NOT NULL PRIMARY KEY,
+    id SERIAL NOT NULL PRIMARY KEY,
     key text NOT NULL,
     value text NOT NULL,
     username text NOT NULL,
@@ -59,7 +59,7 @@ CREATE TABLE history_keys (
 );
 
 CREATE TABLE history_objects (
-    id integer NOT NULL PRIMARY KEY,
+    id SERIAL NOT NULL PRIMARY KEY,
     username text NOT NULL,
     changeset bigint NOT NULL,
     "timestamp" text NOT NULL,
@@ -69,7 +69,7 @@ CREATE TABLE history_objects (
 );
 
 CREATE TABLE history_users (
-    id integer NOT NULL PRIMARY KEY,
+    id SERIAL NOT NULL PRIMARY KEY,
     changeset bigint NOT NULL,
     "timestamp" text NOT NULL,
     created bigint,
@@ -80,7 +80,7 @@ CREATE TABLE history_users (
 );
 
 CREATE TABLE history_users_objects (
-    id integer NOT NULL PRIMARY KEY,
+    id SERIAL NOT NULL PRIMARY KEY,
     key text NOT NULL,
     value text NOT NULL,
     username text NOT NULL,
@@ -102,7 +102,7 @@ CREATE TABLE unblocked_users (
 );
 
 CREATE TABLE watched_keys (
-    id integer NOT NULL PRIMARY KEY,
+    id SERIAL NOT NULL PRIMARY KEY,
     key text NOT NULL,
     value text NOT NULL,
     reason text,
@@ -112,7 +112,7 @@ CREATE TABLE watched_keys (
 );
 
 CREATE TABLE watched_objects (
-    id integer NOT NULL PRIMARY KEY,
+    id SERIAL NOT NULL PRIMARY KEY,
     element text NOT NULL,
     reason text,
     author text,
@@ -121,7 +121,7 @@ CREATE TABLE watched_objects (
 );
 
 CREATE TABLE watched_users (
-    id integer NOT NULL PRIMARY KEY,
+    id SERIAL NOT NULL PRIMARY KEY,
     username text NOT NULL,
     reason text,
     author text,
@@ -130,7 +130,7 @@ CREATE TABLE watched_users (
 );
 
 CREATE TABLE watched_users_objects (
-    id integer NOT NULL PRIMARY KEY,
+    id SERIAL NOT NULL PRIMARY KEY,
     username text NOT NULL,
     reason text,
     author text,
@@ -138,7 +138,7 @@ CREATE TABLE watched_users_objects (
 );
 
 CREATE TABLE whitelisted_users (
-    id integer NOT NULL PRIMARY KEY,
+    id SERIAL NOT NULL PRIMARY KEY,
     username text NOT NULL,
     reason text,
     author text,
