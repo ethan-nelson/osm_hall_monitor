@@ -50,7 +50,7 @@ def remove_watched_user(username):
     cur = conn.cursor()
 
     cur.execute("""DELETE FROM watched_users WHERE
-                   username = %s;""", username)
+                   username = %s;""", (username,))
 
     conn.commit()
 
@@ -91,7 +91,7 @@ def remove_watched_user_object(username):
     cur = conn.cursor()
 
     cur.execute("""DELETE FROM watched_users_objects WHERE
-                   username = %s;""", username)
+                   username = %s;""", (username,))
 
 
 def add_watched_object(element, reason, author, authorid, email):
@@ -134,7 +134,7 @@ def remove_watched_object(element):
     cur = conn.cursor()
 
     cur.execute("""DELETE FROM watched_objects WHERE
-                   element = %s;""", element)
+                   element = %s;""", (element,))
 
     conn.commit()
 
@@ -222,6 +222,6 @@ def remove_whitelisted_user(username):
     cur = conn.cursor()
 
     cur.execute("""DELETE FROM whitelisted_users WHERE
-                   username = %s;""", username)
+                   username = %s;""", (username,))
 
     conn.commit()
