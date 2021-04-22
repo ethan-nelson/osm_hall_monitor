@@ -1,7 +1,7 @@
-from osmhm import connect, inserts, manage
+from osmhm import connect, inserts, db
 
 def test_add_watched_user():
-    manage.add_watched_user('testuser', 'Because', 'testadmin', 2, 'test@test.com')
+    db.add_watched_user('testuser', 'Because', 'testadmin', 2, 'test@test.com')
 
     conn = connect.connect()
     cur = conn.cursor()
@@ -12,7 +12,7 @@ def test_add_watched_user():
 
 
 def test_remove_watched_user():
-    manage.remove_watched_user('testuser')
+    db.remove_watched_user('testuser')
 
     conn = connect.connect()
     cur = conn.cursor()
@@ -23,7 +23,7 @@ def test_remove_watched_user():
 
 
 def test_add_watched_object():
-    manage.add_watched_object('n322', 'Because', 'testadmin', 2, 'test@test.com')
+    db.add_watched_object('n322', 'Because', 'testadmin', 2, 'test@test.com')
 
     conn = connect.connect()
     cur = conn.cursor()
@@ -34,7 +34,7 @@ def test_add_watched_object():
 
 
 def test_remove_watched_object():
-    manage.remove_watched_object('n322')
+    db.remove_watched_object('n322')
 
     conn = connect.connect()
     cur = conn.cursor()
@@ -45,7 +45,7 @@ def test_remove_watched_object():
 
 
 def test_add_watched_key():
-    manage.add_watched_key('railway', 'abandoned', 'Because', 'testadmin', 2, 'test@test.com')
+    db.add_watched_key('railway', 'abandoned', 'Because', 'testadmin', 2, 'test@test.com')
 
     conn = connect.connect()
     cur = conn.cursor()
@@ -56,7 +56,7 @@ def test_add_watched_key():
 
 
 def test_remove_watched_key():
-    manage.remove_watched_key('railway', 'abandoned')
+    db.remove_watched_key('railway', 'abandoned')
 
     conn = connect.connect()
     cur = conn.cursor()
