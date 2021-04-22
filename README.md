@@ -77,11 +77,11 @@ import osmhm
 osmhm.run(history=False, monitor=True, suspicious=True) # Does not log full history, does watch flagged objects and users, and does look for strange changesets
 ```
 
-To add or remove watched users, use `osmhm.manage.add_watched_user(username, reason, author, email)` (email can be None type) or `osmhm.manage.remove_watched_user(username)`, respectively.
+To add or remove watched users, use `osmhm.db.add_watched_user(username, reason, author, email)` (email can be None type) or `osmhm.db.remove_watched_user(username)`, respectively.
 
-To add or remove watched objects, similarly use `osmhm.manage.add_watched_object(element, reason, author, email)` (email can be None type) or `osmhm.manage.remove_watched_object(element)`, respectively. Elements should be composed of a singleton character denoting **n**ode, **w**ay, or **r**elation, followed by the OSM id number.
+To add or remove watched objects, similarly use `osmhm.db.add_watched_object(element, reason, author, email)` (email can be None type) or `osmhm.db.remove_watched_object(element)`, respectively. Elements should be composed of a singleton character denoting **n**ode, **w**ay, or **r**elation, followed by the OSM id number.
 
-To add or remove users from the whitelist (used to ignore users in the suspicious filter), again use `osmhm.manage.add_whitelisted_user(username, reason, author)` or `osmhm.manage.remove_whitelisted_user(username)`.
+To add or remove users from the whitelist (used to ignore users in the suspicious filter), again use `osmhm.db.add_whitelisted_user(username, reason, author)` or `osmhm.db.remove_whitelisted_user(username)`.
 
 More information will be coming soon and the tool will continue to be improved, including the option to remove the dependency on psycopg2 and a postgres database to store everything.
 
