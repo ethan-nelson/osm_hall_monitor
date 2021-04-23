@@ -205,7 +205,7 @@ def add_watched_object_event(changeset, wid):
     cur = conn.cursor()
 
     info = (wid, changeset['timestamp'],
-            changeset'username'].encode('utf8'), changeset['uid'],
+            changeset['username'].encode('utf8'), changeset['uid'],
             changeset['action'], changeset['changeset'])
 
     cur.execute("""INSERT INTO history_objects
