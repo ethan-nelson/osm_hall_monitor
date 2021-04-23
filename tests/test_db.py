@@ -1,4 +1,4 @@
-from osmhm import connect, inserts, db
+from osmhm import connect, db
 
 def test_add_watched_user():
     db.add_watched_user('testuser', 'Because', 'testadmin', 2, 'test@test.com')
@@ -132,7 +132,7 @@ def test_remove_watched_key_by_authorid():
 
 
 def test_insert_user_event():
-    inserts.insert_user_event({'id': 1,
+    db.add_watched_user_event({'id': 1,
                               'timestamp': '2018-01-01T00:00:00Z',
                               'uid': 2,
                               'create': 1,
@@ -165,7 +165,7 @@ def test_prune_user_event():
 
 
 def test_insert_object_event():
-    inserts.insert_object_event({'timestamp': '2018-01-01T00:00:00Z',
+    db.add_watched_object_event({'timestamp': '2018-01-01T00:00:00Z',
                                  'username': 'testuser',
                                  'uid': 2,
                                  'action': 1,
@@ -197,7 +197,7 @@ def test_prune_object_event():
 
 
 def test_insert_key_event():
-    inserts.insert_key_event({'id': 'n20',
+    db.add_watched_key_event({'id': 'n20',
                               'timestamp': '2018-01-01T00:00:00Z',
                               'username': 'testuser',
                               'uid': 2,
