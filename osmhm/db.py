@@ -7,7 +7,7 @@ Functions that add or remove entries on tracking lists.
 from osmhm import connect
 
 
-def add_watched_user(username, reason, author, authorid, email):
+def add_watched_user(username, reason=None, author=None, authorid=None, email=None):
     """
     Add user to watched user list for tracking.
 
@@ -15,13 +15,13 @@ def add_watched_user(username, reason, author, authorid, email):
     ------
     username : str
         Username to track
-    reason : str
+    reason : str, optional
         Reason to track user
-    author : str
+    author : str, optional
         User adding tracking entry
-    authorid : int
+    authorid : int, optional
         Userid of user adding entry
-    email : str, option
+    email : str, optional
         Email address for notification of events
     
     """
@@ -55,7 +55,7 @@ def remove_watched_user(username):
     conn.commit()
 
 
-def add_watched_user_object(username, reason, author, authorid, email):
+def add_watched_user_object(username, reason=None, author=None, authorid=None, email=None):
     """
     Add user to watched user list with object composites for tracking.
 
@@ -63,13 +63,13 @@ def add_watched_user_object(username, reason, author, authorid, email):
     ------
      username : str
         Username to track
-    reason : str
+    reason : str, optional
         Reason to track user
-    author : str
+    author : str, optional
         User adding tracking entry
-    authorid : int
+    authorid : int, optional
         Userid of user adding entry
-    email : str, option
+    email : str, optional
         Email address for notification of events
     
     """
@@ -94,7 +94,7 @@ def remove_watched_user_object(username):
                    username = %s;""", (username,))
 
 
-def add_watched_object(element, reason, author, authorid, email):
+def add_watched_object(element, reason=None, author=None, authorid=None, email=None):
     """
     Add object to watched object list.
 
@@ -103,13 +103,13 @@ def add_watched_object(element, reason, author, authorid, email):
     element : str
         Object to track, with type specified as single letter
           prepended to object id (e.g. node 322 is 'n322')
-    reason : str
+    reason : str, optional
         Reason to track user
-    author : str
+    author : str, optional
         User adding tracking entry
-    authorid : int
+    authorid : int, optional
         Userid of user adding entry
-    email : str, option
+    email : str, optional
         Email address for notification of events
  
     """
@@ -139,7 +139,7 @@ def remove_watched_object(element):
     conn.commit()
 
 
-def add_watched_key(key, value, reason, author, authorid, email):
+def add_watched_key(key, value, reason=None, author=None, authorid=None, email=None):
     """
     Add key/value combination to key/value tracking list.
 
@@ -149,13 +149,13 @@ def add_watched_key(key, value, reason, author, authorid, email):
         Key to track; can be wildcard
     value : str
         Key value to track; can be wildcard
-    reason : str
+    reason : str, optional
         Reason to track user
-    author : str
+    author : str, optional
         User adding tracking entry
-    authorid : int
+    authorid : int, optional
         Userid of user adding entry
-    email : str, option
+    email : str, optional
         Email address for notification of events
  
     """
@@ -185,7 +185,7 @@ def remove_watched_key(key, value):
     conn.commit()
 
 
-def add_whitelisted_user(username, reason, author, authorid):
+def add_whitelisted_user(username, reason=None, author=None, authorid=None):
     """
     Add whitelisted user that is not picked up in tracking.
 
@@ -193,11 +193,11 @@ def add_whitelisted_user(username, reason, author, authorid):
     ------
     username : str
         Username to track
-    reason : str
+    reason : str, optional
         Reason to track user
-    author : str
+    author : str, optional
         User adding tracking entry
-    authorid : int
+    authorid : int, optional
         Userid of user adding entry
  
     """
