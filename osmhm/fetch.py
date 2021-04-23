@@ -22,7 +22,8 @@ def fetch_last_read():
 """
 The osmhm.fetch.fetch_last_read() function is being deprecated. Please
 use osmhm.db.get_last_file() instead for the same functionality.
-"""
+""",
+        DeprecationWarning
     )
     conn = connect()
     cur = conn.cursor()
