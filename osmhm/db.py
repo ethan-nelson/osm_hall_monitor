@@ -293,7 +293,8 @@ def add_last_file(sequence, timestamp, timetype, read):
 
     cur.execute("""INSERT INTO file_list 
                    (username, reason, author, authorid)
-                   VALUES (%s, %s, %s, %s);""", info)
+                   VALUES (%s, %s, %s, %s);""", 
+                    (sequence, timestamp, timetype, read))
 
     conn.commit()
 
@@ -331,7 +332,8 @@ def update_last_file(sequence, timestamp, timetype, read):
 
     cur.execute("""UPDATE file_list SET 
                    (username, reason, author, authorid)
-                   = (%s, %s, %s, %s);""", info)
+                   = (%s, %s, %s, %s);""",
+                    (sequence, timestamp, timetype, read))
 
     conn.commit()
 
