@@ -288,7 +288,7 @@ def add_last_file(sequence, timestamp, timetype, read):
         Flag indicating if file has been read or not
     
     """
-    conn = connect()
+    conn = connect.connect()
     cur = conn.cursor()
 
     cur.execute("""INSERT INTO file_list 
@@ -303,7 +303,7 @@ def get_last_file():
     Retrieve information about the last state file seen.
     
     """
-    conn = connect()
+    conn = connect.connect()
     cur = conn.cursor()
 
     cur.execute("SELECT * FROM file_list;")
@@ -326,7 +326,7 @@ def update_last_file(sequence, timestamp, timetype, read):
         Flag indicating if file has been read or not
     
     """
-    conn = connect()
+    conn = connect.connect()
     cur = conn.cursor()
 
     cur.execute("""UPDATE file_list SET 
@@ -341,7 +341,7 @@ def remove_last_file():
     Remove the last file information.
     
     """
-    conn = connect()
+    conn = connect.connect()
     cur = conn.cursor()
 
     cur.execute("DELETE FROM file_list;")
