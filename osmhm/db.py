@@ -270,3 +270,15 @@ def remove_whitelisted_user(username, authorid=None):
                    username = %s and authorid = %s;""", info)
 
     conn.commit()
+
+
+def get_last_file():
+    """
+    Retrieve information about the last state file seen.
+    
+    """
+    conn = connect()
+    cur = conn.cursor()
+
+    cur.execute("SELECT * FROM file_list;")
+    return cur.fetchone()
