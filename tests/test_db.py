@@ -110,7 +110,7 @@ def test_add_watched_key_minimal_details():
 
 
 def test_remove_watched_key_by_wrong_authorid():
-    db.remove_watched_key('railway', 'abandoned', 3)
+    db.remove_watched_key('railway', 'abandoned', 2)
 
     conn = connect.connect()
     cur = conn.cursor()
@@ -121,7 +121,7 @@ def test_remove_watched_key_by_wrong_authorid():
 
 
 def test_remove_watched_key_by_authorid():
-    db.remove_watched_key('railway', 'abandoned')
+    db.remove_watched_key('railway', 'abandoned', 3)
 
     conn = connect.connect()
     cur = conn.cursor()
