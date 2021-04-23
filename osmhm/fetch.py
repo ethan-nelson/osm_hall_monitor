@@ -6,39 +6,7 @@ Contains functions to fetch diff file information (state files) from
 
 """
 from osmhm import config, db
-from osmhm.connect import connect
 import requests
-from warnings import warn
-
-
-def fetch_last_read():
-    """
-    Accesses the file_list table to retrieve the most recently read
-      diff file as well as information about it. If the file listing
-      does not contain any information, it returns None.
-
-    """
-    warn(
-"""
-The osmhm.fetch.fetch_last_read() function is being deprecated. Please
-use osmhm.db.get_last_file() instead for the same functionality.
-""",
-        DeprecationWarning
-    )
-    conn = connect()
-    cur = conn.cursor()
-
-    cur = conn.cursor()
-    cur.execute("SELECT * FROM file_list;")
-
-    try:
-        sequence = {}
-        _, sequence['sequencenumber'], sequence['timestamp'], \
-            sequence['timetype'], sequence['read_flag'] = cur.fetchone()
-
-        return sequence
-    except:
-        return None
 
 
 def fetch_next(current_sequence='', time_type='hour', reset=False):
