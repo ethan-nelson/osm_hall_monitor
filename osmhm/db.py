@@ -40,7 +40,7 @@ def add_watched_user(username, reason=None, author=None, authorid=None, email=No
 def remove_watched_user(username, authorid=None):
     """
     Remove user from tracking list associated with authorid.
-    
+
     Inputs
     ------
     username : str
