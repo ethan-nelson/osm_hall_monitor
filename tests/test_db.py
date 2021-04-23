@@ -11,6 +11,17 @@ def test_add_watched_user():
     assert len(results) == 1
 
 
+def test_add_watched_user_minimal_details():
+    db.add_watched_user('testuser2')
+
+    conn = connect.connect()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM watched_users;")
+    results = cur.fetchall()
+
+    assert len(results) == 2
+
+
 def test_remove_watched_user():
     db.remove_watched_user('testuser')
 
@@ -19,7 +30,7 @@ def test_remove_watched_user():
     cur.execute("SELECT * FROM watched_users;")
     results = cur.fetchall()
 
-    assert len(results) == 0
+    assert len(results) == 1
 
 
 def test_add_watched_object():
@@ -33,6 +44,17 @@ def test_add_watched_object():
     assert len(results) == 1
 
 
+def test_add_watched_object_minimal_details():
+    db.add_watched_object('n323')
+
+    conn = connect.connect()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM watched_objects;")
+    results = cur.fetchall()
+
+    assert len(results) == 2
+
+
 def test_remove_watched_object():
     db.remove_watched_object('n322')
 
@@ -41,7 +63,7 @@ def test_remove_watched_object():
     cur.execute("SELECT * FROM watched_objects;")
     results = cur.fetchall()
 
-    assert len(results) == 0
+    assert len(results) == 1
 
 
 def test_add_watched_key():
@@ -54,6 +76,16 @@ def test_add_watched_key():
 
     assert len(results) == 1
 
+def test_add_watched_key_minimal_details():
+    db.add_watched_key('railway', 'rail')
+
+    conn = connect.connect()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM watched_keys;")
+    results = cur.fetchall()
+
+    assert len(results) == 2
+
 
 def test_remove_watched_key():
     db.remove_watched_key('railway', 'abandoned')
@@ -63,7 +95,7 @@ def test_remove_watched_key():
     cur.execute("SELECT * FROM watched_keys;")
     results = cur.fetchall()
 
-    assert len(results) == 0
+    assert len(results) == 1
 
 
 def test_insert_user_event():
