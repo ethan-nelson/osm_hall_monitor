@@ -56,6 +56,8 @@ def remove_watched_user(username, authorid=None):
     cur.execute("""DELETE FROM watched_users WHERE
                    username = %s and authorid = %s;""", info)
 
+    conn.commit()
+
 
 def add_watched_user_object(username, reason=None, author=None, authorid=None, email=None):
     """
@@ -84,6 +86,8 @@ def add_watched_user_object(username, reason=None, author=None, authorid=None, e
                    (username, reason, author, authorid, email)
                    VALUES (%s, %s, %s, %s, %s);""", info)
 
+    cur.commit()
+
 
 def remove_watched_user_object(username, authorid=None):
     """
@@ -104,6 +108,8 @@ def remove_watched_user_object(username, authorid=None):
 
     cur.execute("""DELETE FROM watched_users_objects WHERE
                    username = %s and authorid = %s;""", info)
+
+    cur.commit()
 
 
 def add_watched_object(element, reason=None, author=None, authorid=None, email=None):
@@ -134,7 +140,6 @@ def add_watched_object(element, reason=None, author=None, authorid=None, email=N
                    (element, reason, author, authorid, email)
                    VALUES (%s, %s, %s, %s, %s);""", info)
 
-
     conn.commit()
 
 
@@ -157,6 +162,8 @@ def remove_watched_object(element, authorid=None):
 
     cur.execute("""DELETE FROM watched_objects WHERE
                    element = %s and authorid = %s;""", info)
+
+    cur.commit()
 
 
 def add_watched_key(key, value, reason=None, author=None, authorid=None, email=None):
@@ -211,6 +218,8 @@ def remove_watched_key(key, value, authorid=None):
 
     cur.execute("""DELETE FROM watched_keys WHERE
                    key = %s and value = %s and authorid = %s;""", info)
+
+    cur.commit()
 
 
 def add_whitelisted_user(username, reason=None, author=None, authorid=None):
