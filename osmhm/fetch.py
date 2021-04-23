@@ -8,6 +8,7 @@ Contains functions to fetch diff file information (state files) from
 from osmhm import config
 from osmhm.connect import connect
 import requests
+from warnings import DeprecationWarning, warn
 
 
 def fetch_last_read():
@@ -17,6 +18,12 @@ def fetch_last_read():
       does not contain any information, it returns None.
 
     """
+    warn(
+"""
+The osmhm.fetch.fetch_last_read() function is being deprecated. Please
+use osmhm.db.get_last_file() instead for the same functionality.
+"""
+    )
     conn = connect()
     cur = conn.cursor()
 
