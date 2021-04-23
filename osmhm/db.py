@@ -37,25 +37,7 @@ def add_watched_user(username, reason=None, author=None, authorid=None, email=No
     conn.commit()
 
 
-def remove_watched_user(username):
-    """
-    Remove user from tracking list.
-
-    Inputs
-    ------
-    username : str
-        Username to remove from database
-    """
-    conn = connect.connect()
-    cur = conn.cursor()
-
-    cur.execute("""DELETE FROM watched_users WHERE
-                   username = %s;""", (username,))
-
-    conn.commit()
-
-
-def remove_watched_user_by_authorid(username, authorid):
+def remove_watched_user(username, authorid=None):
     """
     Remove user from tracking list associated with authorid.
     
@@ -63,7 +45,7 @@ def remove_watched_user_by_authorid(username, authorid):
     ------
     username : str
         Username to remove from database
-    authorid : int
+    authorid : int, optional
         Userid of user adding entry
     """
     conn = connect.connect()
@@ -103,18 +85,7 @@ def add_watched_user_object(username, reason=None, author=None, authorid=None, e
                    VALUES (%s, %s, %s, %s, %s);""", info)
 
 
-def remove_watched_user_object(username):
-    """
-    Remove user from object composite user tracking list.
-    """
-    conn = connect.connect()
-    cur = conn.cursor()
-
-    cur.execute("""DELETE FROM watched_users_objects WHERE
-                   username = %s;""", (username,))
-
-    
-def remove_watched_user_object_by_authorid(username, authorid):
+def remove_watched_user_object(username, authorid=None):
     """
     Remove user from object composite user tracking list
     associated with authorid.
@@ -123,7 +94,7 @@ def remove_watched_user_object_by_authorid(username, authorid):
     ------
     username : str
         Username to remove from database
-    authorid : int
+    authorid : int, optional
         Userid of user adding entry
     """
     conn = connect.connect()
@@ -167,20 +138,7 @@ def add_watched_object(element, reason=None, author=None, authorid=None, email=N
     conn.commit()
 
 
-def remove_watched_object(element):
-    """
-    Remove object from object tracking list.
-    """
-    conn = connect.connect()
-    cur = conn.cursor()
-
-    cur.execute("""DELETE FROM watched_objects WHERE
-                   element = %s;""", (element,))
-
-    conn.commit()
-
-
-def remove_watched_object_by_authorid(element, authorid):
+def remove_watched_object(element, authorid=None):
     """
     Remove object from object tracking list associated with authorid.
     
@@ -189,7 +147,7 @@ def remove_watched_object_by_authorid(element, authorid):
     element : str
         Object to track, with type specified as single letter
           prepended to object id (e.g. node 322 is 'n322')
-    authorid : int
+    authorid : int, optional
         Userid of user adding entry
     """
     conn = connect.connect()
@@ -233,21 +191,7 @@ def add_watched_key(key, value, reason=None, author=None, authorid=None, email=N
     conn.commit()
 
 
-def remove_watched_key(key, value):
-    """
-    Remove key/value combination from key/value tracking list.
-
-    """
-    conn = connect.connect()
-    cur = conn.cursor()
-
-    cur.execute("""DELETE FROM watched_keys WHERE
-                   key = %s AND value = %s;""", (key, value))
-
-    conn.commit()
-
-
-def remove_watched_key_by_authorid(key, value, authorid):
+def remove_watched_key(key, value, authorid=None):
     """
     Remove object from object tracking list associated with authorid.
     
@@ -257,7 +201,7 @@ def remove_watched_key_by_authorid(key, value, authorid):
         Key to remove
     value : str
         Key value to remove
-    authorid : int
+    authorid : int, optional
         Userid of user adding entry
     """
     conn = connect.connect()
@@ -297,24 +241,16 @@ def add_whitelisted_user(username, reason=None, author=None, authorid=None):
     conn.commit()
 
 
-def remove_whitelisted_user(username):
+def remove_whitelisted_user(username, authorid=None):
     """
     Remove whitelisted user from untracked list.
 
-    """
-    conn = connect.connect()
-    cur = conn.cursor()
-
-    cur.execute("""DELETE FROM whitelisted_users WHERE
-                   username = %s;""", (username,))
-
-    conn.commit()
-
-
-def remove_whitelisted_user_by_authorid(username, authorid):
-    """
-    Remove whitelisted user from untracked list.
-
+    Inputs
+    ------
+    username : str
+        Username to remove
+    authorid : int, optional
+        Userid of user adding entry
     """
     conn = connect.connect()
     cur = conn.cursor()
