@@ -5,7 +5,7 @@ Contains functions to fetch diff file information (state files) from
   OpenStreetMap (OSM) planet server.
 
 """
-from osmhm import config
+from osmhm import config, db
 from osmhm.connect import connect
 import requests
 from warnings import DeprecationWarning, warn
@@ -91,19 +91,8 @@ def fetch_next(current_sequence='', time_type='hour', reset=False):
         (k, v) = val.split('=')
         state[k.lower()] = v.strip().replace("\\:", ":")
 
-    info = (state['sequencenumber'], state['timestamp'], time_type, False)
-
-    conn = connect()
-    cur = conn.cursor()
-
     if reset is True:
-        cur.execute("DELETE FROM file_list;")
-        cur.execute("""INSERT INTO file_list
-                       (sequence, timestamp, timetype, read)
-                       VALUES (%s, %s, %s, %s);""", info)
+        db.remove_last_file()
+        db.add_last_file(state['sequencenumber'], state['timestamp'], time_type, False)
     else:
-        cur.execute("""UPDATE file_list SET
-                       (sequence, timestamp, timetype, read)
-                       = (%s, %s, %s, %s);""", info)
-
-    conn.commit()
+        db.update_last_file(state['sequencenumber'], state['timestamp'], time_type, False)
