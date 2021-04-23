@@ -228,3 +228,56 @@ def test_prune_key_event():
     results = cur.fetchall()
 
     assert len(results) == 0
+
+
+def test_add_last_file():
+    db.add_last_file('001002003', '2020-01-01T06:14:01Z', 'hour', False)
+
+    conn = connect.connect()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM file_list;")
+    results = cur.fetchall()
+
+    assert len(results) == 1
+
+
+def test_get_last_file():
+    db_results = db.get_last_file()
+    # get_last_file returns a row or None
+    assert db_results != None
+
+    conn = connect.connect()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM file_list;")
+    # Use first row to match get_last_file behavior
+    test_results = cur.fetchall()[0]
+
+    assert db_results == test_results
+
+
+def test_update_last_file():
+    conn = connect.connect()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM file_list;")
+    old_results = cur.fetchall()
+
+    db.update_last_file('001002004', '2020-01-01T07:14:05Z', 'hour', False)
+
+    conn = connect.connect()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM file_list;")
+    new_results = cur.fetchall()
+
+    assert len(new_results) == 1
+    assert old_results != new_results
+
+
+def test_remove_last_file():
+    db.remove_last_file()
+
+    conn = connect.connect()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM file_list;")
+    results = cur.fetchall()
+
+    assert len(results) == 0

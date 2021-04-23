@@ -19,11 +19,11 @@ def run(time_type='hour', history=False, suspicious=False, monitor=True,
 
     while True:
 
-        sequence = osmhm.fetch.fetch_last_read()
+        sequence = osmhm.db.get_last_file()
 
         if not sequence:
             osmhm.fetch.fetch_next(time_type=time_type, reset=True)
-            sequence = osmhm.fetch.fetch_last_read()
+            sequence = osmhm.db.get_last_file()
 
         if sequence['read_flag'] is False:
             print("Processing sequence %s." % (sequence['sequencenumber']))
