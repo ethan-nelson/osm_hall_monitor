@@ -1,14 +1,6 @@
 from osmhm import connect
 
 
-def insert_file_read():
-    conn = connect.connect()
-    cur = conn.cursor()
-
-    cur.execute("UPDATE file_list SET read = '%s';", (True,))
-    conn.commit()
-
-
 def insert_user_event(changeset, wid):
     conn = connect.connect()
     cur = conn.cursor()
