@@ -243,7 +243,7 @@ def test_add_last_file():
 
 def test_get_last_file():
     db_results = db.get_last_file()
-    assert len(results) == 1
+    assert len(db_results) == 1
 
     conn = connect.connect()
     cur = conn.cursor()
