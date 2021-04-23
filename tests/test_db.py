@@ -243,12 +243,14 @@ def test_add_last_file():
 
 def test_get_last_file():
     db_results = db.get_last_file()
-    assert len(db_results) == 1
+    # get_last_file returns a row or None
+    assert db_results != None
 
     conn = connect.connect()
     cur = conn.cursor()
     cur.execute("SELECT * FROM file_list;")
-    test_results = cur.fetchall()
+    # Use first row to match get_last_file behavior
+    test_results = cur.fetchall()[0]
 
     assert db_results == test_results
 
