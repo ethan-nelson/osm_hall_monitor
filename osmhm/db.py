@@ -272,6 +272,32 @@ def remove_whitelisted_user(username, authorid=None):
     conn.commit()
 
 
+def add_last_file(sequence, timestamp, timetype, read):
+    """
+    Add information about the last state file seen.
+    
+    Inputs
+    ------
+    sequence : int
+        Sequence number of state file
+    timestamp : str
+        Stringified timestamp from file
+    timetype : str
+        Time resolution of state file
+    read : bool
+        Flag indicating if file has been read or not
+    
+    """
+    conn = connect()
+    cur = conn.cursor()
+
+    cur.execute("""INSERT INTO file_list 
+                   (username, reason, author, authorid)
+                   VALUES (%s, %s, %s, %s);""", info)
+
+    conn.commit()
+
+
 def get_last_file():
     """
     Retrieve information about the last state file seen.
@@ -282,3 +308,42 @@ def get_last_file():
 
     cur.execute("SELECT * FROM file_list;")
     return cur.fetchone()
+
+
+def update_last_file(sequence, timestamp, timetype, read):
+    """
+    Update information about the last state file seen.
+    
+    Inputs
+    ------
+    sequence : int
+        Sequence number of state file
+    timestamp : str
+        Stringified timestamp from file
+    timetype : str
+        Time resolution of state file
+    read : bool
+        Flag indicating if file has been read or not
+    
+    """
+    conn = connect()
+    cur = conn.cursor()
+
+    cur.execute("""UPDATE file_list SET 
+                   (username, reason, author, authorid)
+                   = (%s, %s, %s, %s);""", info)
+
+    conn.commit()
+
+
+def remove_last_file():
+    """
+    Remove the last file information.
+    
+    """
+    conn = connect()
+    cur = conn.cursor()
+
+    cur.execute("DELETE FROM file_list;")
+
+    conn.commit()
