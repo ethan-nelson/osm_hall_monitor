@@ -1,7 +1,6 @@
 from osmhm import (
     connect,
     db,
-    inserts,
     send_notification,
     queries,
 )
