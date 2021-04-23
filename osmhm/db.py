@@ -59,6 +59,30 @@ def remove_watched_user(username, authorid=None):
     conn.commit()
 
 
+def add_watched_user_event(changeset, wid):
+    """
+    Add watched user event.
+
+    Inputs
+    ------
+    changeset : dict
+        Information about user event
+    wid : int
+        Watched object ID
+    """
+    conn = connect.connect()
+    cur = conn.cursor()
+
+    info = (wid, changeset['id'], changeset['timestamp'], changeset['uid'],
+            changeset['create'], changeset['modify'], changeset['delete'])
+
+    cur.execute("""INSERT INTO history_users
+                    (wid, changeset, timestamp, userid, created, modified, \
+                    deleted) VALUES (%s, %s, %s, %s, %s, %s, %s);""", info)
+
+    conn.commit()
+
+
 def add_watched_user_object(username, reason=None, author=None, authorid=None, email=None):
     """
     Add user to watched user list with object composites for tracking.
@@ -166,6 +190,31 @@ def remove_watched_object(element, authorid=None):
     conn.commit()
 
 
+def add_watched_object_event(changeset, wid):
+    """
+    Add watched object event.
+
+    Inputs
+    ------
+    changeset : dict
+        Information about object event
+    wid : int
+        Watched object ID
+    """
+    conn = connect.connect()
+    cur = conn.cursor()
+
+    info = (wid, changeset['timestamp'],
+            changeset['username'].encode('utf8'), changeset['uid'],
+            changeset['action'], changeset['changeset'])
+
+    cur.execute("""INSERT INTO history_objects
+                    (wid, timestamp, username, userid, action, changeset)
+                    VALUES (%s, %s, %s, %s, %s, %s);""", info)
+
+    conn.commit()
+
+
 def add_watched_key(key, value, reason=None, author=None, authorid=None, email=None):
     """
     Add key/value combination to key/value tracking list.
@@ -218,6 +267,33 @@ def remove_watched_key(key, value, authorid=None):
 
     cur.execute("""DELETE FROM watched_keys WHERE
                    key = %s and value = %s and authorid = %s;""", info)
+
+    conn.commit()
+
+
+def add_watched_key_event(changeset, key, wid):
+    """
+    Add watched key event.
+
+    Inputs
+    ------
+    changeset : dict
+        Information about key event
+    wid : int
+        Watched key ID
+    """
+    conn = connect.connect()
+    cur = conn.cursor()
+
+    info = (wid, changeset['id'], changeset['timestamp'],
+            changeset['username'].encode('utf8'), changeset['uid'],
+            changeset['action'], key, changeset['tags'][key],
+            changeset['changeset'])
+
+    cur.execute("""INSERT INTO history_keys
+                    (wid, element, timestamp, username, userid, action, key, 
+                    value, changeset) VALUES
+                    (%s, %s, %s, %s, %s, %s, %s, %s, %s);""", info)
 
     conn.commit()
 

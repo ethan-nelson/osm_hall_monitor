@@ -1,6 +1,6 @@
 from osmhm import (
     connect,
-    inserts,
+    db,
     send_notification,
     queries,
 )
@@ -83,7 +83,7 @@ def user_filter(changesets, notification=False, notifier=send_notification.basic
         for changesetid, changeset in changesets.iteritems():
             for user in watched_users:
                 if fnmatch.fnmatch(changeset['username'].encode('utf-8'), user['username']):
-                    inserts.insert_user_event(changeset, user['id'])
+                    db.add_watched_user_event(changeset, user['id'])
                     notify_list.append({'timestamp': changeset['timestamp'], 'changesetid': changesetid,
                                         'username': changeset['username'].encode('utf8'), 'create': changeset['create'],
                                         'modify': changeset['modify'], 'delete': changeset['delete'], 'author': user['author'],
@@ -138,7 +138,7 @@ def object_filter(objects, notification=False, notifier=send_notification.basic_
                         item['action'] = 2
                     elif item['delete'] == 1:
                         item['action'] = 4
-                    inserts.insert_object_event(item, obj['id'])
+                    db.add_watched_object_event(item, obj['id'])
                     notify_list.append({'timestamp': item['timestamp'], 'changesetid': item['changeset'],
                                         'username': item['username'].encode('utf8'),
                                         'action': item['action'], 'element': item_id,
@@ -166,7 +166,7 @@ def key_filter(objects, notification=False, notifier=send_notification.basic_sen
                             item['action'] = 2
                         elif item['delete'] == 1:
                             item['action'] = 4
-                        inserts.insert_key_event(item, item_key, key['id'])
+                        db.add_watched_key_event(item, item_key, key['id'])
                         notify_list.append({'timestamp': item['timestamp'], 'changesetid': item['changeset'],
                                             'username': item['username'].encode('utf8'), 'action': item['action'],
                                             'key': item_key, 'value': item['tags'][item_key],
