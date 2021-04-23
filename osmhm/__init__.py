@@ -18,21 +18,20 @@ def run(time_type='hour', history=False, suspicious=False, monitor=True,
     import time
 
     while True:
-
         sequence = osmhm.db.get_last_file()
 
         if not sequence:
             osmhm.fetch.fetch_next(time_type=time_type, reset=True)
             sequence = osmhm.db.get_last_file()
 
-        if sequence['read_flag'] is False:
-            print("Processing sequence %s." % (sequence['sequencenumber']))
+        if sequence['read'] is False:
+            print("Processing sequence %s." % (sequence['sequence']))
 
             count = 0
             while True:
                 try:
                     count += 1
-                    data_stream = osmdt.fetch(sequence['sequencenumber'], time=time_type)
+                    data_stream = osmdt.fetch(sequence['sequence'], time=time_type)
                     break
                 except:
                     if count == 5:
@@ -63,8 +62,8 @@ def run(time_type='hour', history=False, suspicious=False, monitor=True,
 
             del changesets, objects, users
 
-            osmhm.inserts.insert_file_read()
-            print("Finished processing %s." % (sequence['sequencenumber']))
+            osmhm.db.update_last_file(sequence['sequence'], sequence['timestamp'], sequence['timetype'], True)
+            print("Finished processing %s." % (sequence['sequence']))
 
         if sequence['timetype'] == 'minute':
             delta_time = 1
@@ -91,7 +90,7 @@ def run(time_type='hour', history=False, suspicious=False, monitor=True,
         while True:
             try:
                 count += 1
-                osmhm.fetch.fetch_next(sequence['sequencenumber'], time_type=time_type)
+                osmhm.fetch.fetch_next(sequence['sequence'], time_type=time_type)
                 break
             except:
                 if count == 5:
