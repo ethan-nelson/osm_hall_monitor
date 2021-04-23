@@ -22,8 +22,19 @@ def test_add_watched_user_minimal_details():
     assert len(results) == 2
 
 
-def test_remove_watched_user():
-    db.remove_watched_user('testuser')
+def test_remove_watched_user_by_wrong_authorid():
+    db.remove_watched_user('testuser', 1)
+
+    conn = connect.connect()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM watched_users;")
+    results = cur.fetchall()
+
+    assert len(results) == 2
+
+
+def test_remove_watched_user_by_authorid():
+    db.remove_watched_user('testuser', 2)
 
     conn = connect.connect()
     cur = conn.cursor()
@@ -55,8 +66,18 @@ def test_add_watched_object_minimal_details():
     assert len(results) == 2
 
 
-def test_remove_watched_object():
-    db.remove_watched_object('n322')
+def test_remove_watched_object_by_wrong_authorid():
+    db.remove_watched_object('n322', 1)
+
+    conn = connect.connect()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM watched_objects;")
+    results = cur.fetchall()
+
+    assert len(results) == 2
+
+def test_remove_watched_object_by_authorid():
+    db.remove_watched_object('n322', 2)
 
     conn = connect.connect()
     cur = conn.cursor()
@@ -67,7 +88,7 @@ def test_remove_watched_object():
 
 
 def test_add_watched_key():
-    db.add_watched_key('railway', 'abandoned', 'Because', 'testadmin', 2, 'test@test.com')
+    db.add_watched_key('railway', 'abandoned', 'Because', 'testnonadmin', 3, 'test@test.com')
 
     conn = connect.connect()
     cur = conn.cursor()
@@ -75,6 +96,7 @@ def test_add_watched_key():
     results = cur.fetchall()
 
     assert len(results) == 1
+
 
 def test_add_watched_key_minimal_details():
     db.add_watched_key('railway', 'rail')
@@ -87,8 +109,19 @@ def test_add_watched_key_minimal_details():
     assert len(results) == 2
 
 
-def test_remove_watched_key():
-    db.remove_watched_key('railway', 'abandoned')
+def test_remove_watched_key_by_wrong_authorid():
+    db.remove_watched_key('railway', 'abandoned', 2)
+
+    conn = connect.connect()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM watched_keys;")
+    results = cur.fetchall()
+
+    assert len(results) == 2
+
+
+def test_remove_watched_key_by_authorid():
+    db.remove_watched_key('railway', 'abandoned', 3)
 
     conn = connect.connect()
     cur = conn.cursor()

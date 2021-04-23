@@ -37,20 +37,24 @@ def add_watched_user(username, reason=None, author=None, authorid=None, email=No
     conn.commit()
 
 
-def remove_watched_user(username):
+def remove_watched_user(username, authorid=None):
     """
-    Remove user from tracking list.
+    Remove user from tracking list associated with authorid.
 
     Inputs
     ------
     username : str
         Username to remove from database
+    authorid : int, optional
+        Userid of user adding entry
     """
     conn = connect.connect()
     cur = conn.cursor()
 
+    info = (username, authorid)
+
     cur.execute("""DELETE FROM watched_users WHERE
-                   username = %s;""", (username,))
+                   username = %s and authorid = %s;""", info)
 
     conn.commit()
 
@@ -82,16 +86,30 @@ def add_watched_user_object(username, reason=None, author=None, authorid=None, e
                    (username, reason, author, authorid, email)
                    VALUES (%s, %s, %s, %s, %s);""", info)
 
+    conn.commit()
 
-def remove_watched_user_object(username):
+
+def remove_watched_user_object(username, authorid=None):
     """
-    Remove user from object composite user tracking list.
+    Remove user from object composite user tracking list
+    associated with authorid.
+    
+    Inputs
+    ------
+    username : str
+        Username to remove from database
+    authorid : int, optional
+        Userid of user adding entry
     """
     conn = connect.connect()
     cur = conn.cursor()
 
+    info = (username, authorid)
+
     cur.execute("""DELETE FROM watched_users_objects WHERE
-                   username = %s;""", (username,))
+                   username = %s and authorid = %s;""", info)
+
+    conn.commit()
 
 
 def add_watched_object(element, reason=None, author=None, authorid=None, email=None):
@@ -122,19 +140,28 @@ def add_watched_object(element, reason=None, author=None, authorid=None, email=N
                    (element, reason, author, authorid, email)
                    VALUES (%s, %s, %s, %s, %s);""", info)
 
-
     conn.commit()
 
 
-def remove_watched_object(element):
+def remove_watched_object(element, authorid=None):
     """
-    Remove object from object tracking list.
+    Remove object from object tracking list associated with authorid.
+    
+    Inputs
+    ------
+    element : str
+        Object to track, with type specified as single letter
+          prepended to object id (e.g. node 322 is 'n322')
+    authorid : int, optional
+        Userid of user adding entry
     """
     conn = connect.connect()
     cur = conn.cursor()
 
+    info = (element, authorid)
+
     cur.execute("""DELETE FROM watched_objects WHERE
-                   element = %s;""", (element,))
+                   element = %s and authorid = %s;""", info)
 
     conn.commit()
 
@@ -171,16 +198,26 @@ def add_watched_key(key, value, reason=None, author=None, authorid=None, email=N
     conn.commit()
 
 
-def remove_watched_key(key, value):
+def remove_watched_key(key, value, authorid=None):
     """
-    Remove key/value combination from key/value tracking list.
-
+    Remove object from object tracking list associated with authorid.
+    
+    Inputs
+    ------
+    key : str
+        Key to remove
+    value : str
+        Key value to remove
+    authorid : int, optional
+        Userid of user adding entry
     """
     conn = connect.connect()
     cur = conn.cursor()
 
+    info = (key, value, authorid)
+
     cur.execute("""DELETE FROM watched_keys WHERE
-                   key = %s AND value = %s;""", (key, value))
+                   key = %s and value = %s and authorid = %s;""", info)
 
     conn.commit()
 
@@ -213,15 +250,23 @@ def add_whitelisted_user(username, reason=None, author=None, authorid=None):
     conn.commit()
 
 
-def remove_whitelisted_user(username):
+def remove_whitelisted_user(username, authorid=None):
     """
     Remove whitelisted user from untracked list.
 
+    Inputs
+    ------
+    username : str
+        Username to remove
+    authorid : int, optional
+        Userid of user adding entry
     """
     conn = connect.connect()
     cur = conn.cursor()
 
+    info = (username, authorid)
+
     cur.execute("""DELETE FROM whitelisted_users WHERE
-                   username = %s;""", (username,))
+                   username = %s and authorid = %s;""", info)
 
     conn.commit()
