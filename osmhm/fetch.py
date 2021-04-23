@@ -8,7 +8,7 @@ Contains functions to fetch diff file information (state files) from
 from osmhm import config, db
 from osmhm.connect import connect
 import requests
-from warnings import DeprecationWarning, warn
+from warnings import warn
 
 
 def fetch_last_read():
