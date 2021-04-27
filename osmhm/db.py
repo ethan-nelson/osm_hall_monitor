@@ -1,8 +1,7 @@
 """
-manage.py
+db.py
 
-Functions that add or remove entries on tracking lists.
-
+Functions that interact with the database.
 """
 from osmhm import connect
 
