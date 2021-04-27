@@ -1,3 +1,10 @@
+"""
+tables.py
+
+This is hacky, but it allows for DB interaction if you only
+have access to a python process and not a shell on the machine.
+"""
+
 from osmhm import connect
 
 
