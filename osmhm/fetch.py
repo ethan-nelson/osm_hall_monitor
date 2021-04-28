@@ -43,11 +43,6 @@ def fetch_next(current_sequence='', time_type='hour', reset=False):
                          sequence_string[0:3], sequence_string[3:6],
                          sequence_string[6:9])
 
-    if time_type == 'minute':
-        end = 5
-    else:
-        end = 3
-
     response = requests.get(state_url, headers=config.http_headers)
 
     if response.status_code == 404:
@@ -56,9 +51,12 @@ def fetch_next(current_sequence='', time_type='hour', reset=False):
     state = {}
     vals = response.text.encode('utf-8').split('\n')
 
-    for val in vals[1:end]:
-        (k, v) = val.split('=')
-        state[k.lower()] = v.strip().replace("\\:", ":")
+    for val in vals:
+        try:
+            (k, v) = val.split('=')
+            state[k.lower()] = v.strip().replace("\\:", ":")
+        except:
+            continue
 
     if reset is True:
         db.remove_last_file()
